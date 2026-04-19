@@ -8,7 +8,7 @@ const inter = Inter({
   display: 'swap',
 });
 
-const BASE_URL = 'https://swapnilshah.dev';
+const BASE_URL = 'https://personal.silentkillerop.me';
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -20,7 +20,13 @@ export const metadata: Metadata = {
     'Backend Developer with 1.5+ years at JM Financial (BlinkX trading platform) building Spring Boot microservices serving 500K+ daily users. Expert in Java, Redis, Docker, GCP, and high-throughput system design.',
   keywords: [
     'Swapnil Shah',
-    'Backend Developer',
+    'Swapnil Shah Portfolio',
+    'Swapnil Shah Resume',
+    'Swapnil Shah JM Financial',
+    'Swapnil Shah Backend Developer',
+    'Swapnil Shah Software Engineer',
+    'Swapnil Shah Developer',
+    'Swapnil Shah BlinkX',
     'Spring Boot Developer',
     'Java Engineer',
     'Microservices Architect',

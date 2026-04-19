@@ -3,74 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowDown, Github, Linkedin, Mail, Download } from 'lucide-react';
 import { heroStats, terminalLines, personalInfo } from '@/lib/data';
-
-/* ── Minimalist Particle System ──────────────────────────────── */
-interface Particle {
-  x: number; y: number; vx: number; vy: number;
-  size: number; opacity: number;
-}
-
-function createParticle(w: number, h: number): Particle {
-  return {
-    x: Math.random() * w, y: Math.random() * h,
-    vx: (Math.random() - 0.5) * 0.15,
-    vy: (Math.random() - 0.5) * 0.15,
-    size: Math.random() * 1.5 + 0.5,
-    opacity: Math.random() * 0.3 + 0.1,
-  };
-}
-
-function ParticleCanvas() {
-  const ref = useRef<HTMLCanvasElement>(null);
-  const particles = useRef<Particle[]>([]);
-  const raf = useRef<number>(0);
-
-  useEffect(() => {
-    const canvas = ref.current!;
-    const ctx = canvas.getContext('2d')!;
-
-    const resize = () => {
-      canvas.width  = window.innerWidth;
-      canvas.height = window.innerHeight;
-      particles.current = Array.from({ length: 50 }, () =>
-        createParticle(canvas.width, canvas.height)
-      );
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const pts = particles.current;
-
-      for (const p of pts) {
-        p.x += p.vx; p.y += p.vy;
-        if (p.x < 0 || p.x > canvas.width)  p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${p.opacity})`;
-        ctx.fill();
-      }
-      raf.current = requestAnimationFrame(draw);
-    };
-    draw();
-
-    return () => {
-      cancelAnimationFrame(raf.current);
-      window.removeEventListener('resize', resize);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={ref}
-      className="absolute inset-0 pointer-events-none opacity-40"
-      style={{ zIndex: 0 }}
-    />
-  );
-}
+import DoodleBackground from './DoodleBackground';
 
 /* ── Terminal Animation ───────────────────────────────────────── */
 function Terminal() {
@@ -253,8 +186,8 @@ export default function Hero() {
       {/* Grid background */}
       <div className="absolute inset-0 grid-bg opacity-40" />
 
-      {/* Particles */}
-      <ParticleCanvas />
+      {/* CSS Doodle Background */}
+      <DoodleBackground />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 pt-24 pb-16 w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
