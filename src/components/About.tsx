@@ -36,12 +36,9 @@ export default function About() {
     <section id="about" ref={sectionRef} className="relative py-28 overflow-hidden"
       style={{ background: 'var(--bg-1)' }}>
 
-      <div className="orb w-96 h-96 top-0 -left-24"
-        style={{ background: 'rgba(0,212,170,0.04)', animationDelay: '-2s' }} />
-
       <div className="relative z-10 max-w-6xl mx-auto px-6">
         <div className="reveal mb-16">
-          <div className="section-label">Who I Am</div>
+          <div className="section-label">Background</div>
           <h2 className="section-heading">About Me</h2>
         </div>
 
@@ -51,45 +48,18 @@ export default function About() {
             {/* Avatar */}
             <div className="flex justify-center lg:justify-start mb-10">
               <div className="relative">
-                {/* Rotating rings */}
+                {/* Clean Avatar Circle */}
                 <div
-                  className="absolute -inset-4 rounded-full border opacity-20"
+                  className="relative w-36 h-36 rounded-full flex items-center justify-center text-4xl font-bold"
                   style={{
-                    borderColor: 'var(--cyan)',
-                    animation: 'spin 10s linear infinite',
-                  }}
-                />
-                <div
-                  className="absolute -inset-8 rounded-full border opacity-10"
-                  style={{
-                    borderColor: 'var(--purple)',
-                    borderStyle: 'dashed',
-                    animation: 'spin 15s linear infinite reverse',
-                  }}
-                />
-
-                {/* Avatar circle */}
-                <div
-                  className="relative w-40 h-40 rounded-full flex items-center justify-center text-5xl font-black"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(0,212,170,0.15), rgba(99,102,241,0.15))',
-                    border: '2px solid rgba(0,212,170,0.3)',
-                    boxShadow: '0 0 40px rgba(0,212,170,0.15)',
-                    fontFamily: 'JetBrains Mono, monospace',
-                    color: 'var(--cyan)',
+                    background: 'var(--bg-2)',
+                    border: '1px solid var(--border)',
+                    fontFamily: 'Inter, sans-serif',
+                    color: 'var(--text-1)',
                   }}
                 >
                   SS
                 </div>
-
-                {/* Pulse ring */}
-                <div
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    animation: 'ringPulse 3s ease-out infinite',
-                    border: '1px solid rgba(0,212,170,0.4)',
-                  }}
-                />
               </div>
             </div>
 
@@ -98,17 +68,17 @@ export default function About() {
               {HIGHLIGHTS.map(h => (
                 <div
                   key={h.label}
-                  className="rounded-xl p-4 text-center"
+                  className="rounded-lg p-4 text-center"
                   style={{
-                    background: 'rgba(0,212,170,0.05)',
-                    border: '1px solid rgba(0,212,170,0.12)',
+                    background: 'var(--bg-2)',
+                    border: '1px solid var(--border)',
                   }}
                 >
-                  <div className="text-2xl font-black font-mono mb-1"
-                    style={{ color: 'var(--cyan)' }}>
+                  <div className="text-2xl font-bold font-sans mb-1"
+                    style={{ color: 'var(--text-1)' }}>
                     {h.value}
                   </div>
-                  <div className="text-xs" style={{ color: 'var(--text-2)' }}>
+                  <div className="text-xs font-medium uppercase tracking-wider" style={{ color: 'var(--text-3)' }}>
                     {h.label}
                   </div>
                 </div>
@@ -118,44 +88,39 @@ export default function About() {
 
           {/* RIGHT: Text */}
           <div className="reveal-right">
-            <p className="text-base leading-relaxed mb-6" style={{ color: 'var(--text-2)' }}>
+            <p className="text-[0.95rem] leading-relaxed mb-6" style={{ color: 'var(--text-2)' }}>
               I&apos;m a{' '}
               <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>Backend Developer</span>
               {' '}with 1.5+ years at{' '}
-              <span style={{ color: 'var(--cyan)', fontWeight: 600 }}>JM Financial</span>
+              <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>JM Financial</span>
               {' '}building the{' '}
               <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>BlinkX trading platform</span>
-              {' '}— a high-stakes system serving over{' '}
-              <span style={{ color: 'var(--cyan)', fontWeight: 600 }}>500K daily users</span>.
+              {' '}— a high-throughput enterprise system serving over{' '}
+              <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>500K daily users</span>.
             </p>
-            <p className="text-base leading-relaxed mb-6" style={{ color: 'var(--text-2)' }}>
-              My biggest wins at work: cutting a critical API from{' '}
-              <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>800ms → 60ms</span>{' '}
-              (92% faster), shrinking report endpoints by{' '}
-              <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>85%</span>, and
-              reducing API payload sizes by{' '}
+            <p className="text-[0.95rem] leading-relaxed mb-6" style={{ color: 'var(--text-2)' }}>
+              My core focus has been architecting robust, low-latency infrastructure. Key wins include engineering the enterprise Trading API Suite, cutting critical API latency from{' '}
+              <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>800ms → 60ms</span>, and reducing payload sizes by{' '}
               <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>80%</span>{' '}
-              using byte-format transmission.
+              to ensure seamless market operations.
             </p>
-            <p className="text-base leading-relaxed mb-8" style={{ color: 'var(--text-2)' }}>
-              Outside work, I run a{' '}
+            <p className="text-[0.95rem] leading-relaxed mb-8" style={{ color: 'var(--text-2)' }}>
+              Outside of work, I design automated trading systems using my own Trading API infrastructure and manage a production-grade{' '}
               <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>self-hosted homelab</span>
-              {' '}behind CGNAT using Cloudflare Tunnel and built a{' '}
-              <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>Traders Diary</span>
-              {' '}app that auto-journals my Zerodha trades with Telegram alerts.
+              {' '}utilizing Cloudflare Zero Trust and Docker.
             </p>
 
             {/* Passions */}
             <div>
-              <p className="text-xs font-mono font-bold uppercase tracking-wider mb-4"
+              <p className="text-xs font-semibold uppercase tracking-wider mb-4"
                 style={{ color: 'var(--text-3)' }}>
-                What I&apos;m Passionate About
+                Core Competencies
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {PASSIONS.map(p => (
                   <div
                     key={p.text}
-                    className="flex items-start gap-3 p-3 rounded-xl text-sm"
+                    className="flex items-center gap-3 p-3 rounded-lg text-sm"
                     style={{
                       background: 'rgba(255,255,255,0.02)',
                       border: '1px solid var(--border)',
@@ -163,7 +128,7 @@ export default function About() {
                     }}
                   >
                     <span className="text-base flex-shrink-0">{p.emoji}</span>
-                    <span>{p.text}</span>
+                    <span className="font-medium">{p.text}</span>
                   </div>
                 ))}
               </div>

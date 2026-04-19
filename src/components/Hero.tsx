@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowDown, Github, Linkedin, Mail, Download } from 'lucide-react';
 import { heroStats, terminalLines, personalInfo } from '@/lib/data';
 
-/* ── Particle System ──────────────────────────────────────────── */
+/* ── Minimalist Particle System ──────────────────────────────── */
 interface Particle {
   x: number; y: number; vx: number; vy: number;
   size: number; opacity: number;
@@ -13,16 +13,15 @@ interface Particle {
 function createParticle(w: number, h: number): Particle {
   return {
     x: Math.random() * w, y: Math.random() * h,
-    vx: (Math.random() - 0.5) * 0.35,
-    vy: (Math.random() - 0.5) * 0.35,
-    size: Math.random() * 1.8 + 0.4,
-    opacity: Math.random() * 0.5 + 0.15,
+    vx: (Math.random() - 0.5) * 0.15,
+    vy: (Math.random() - 0.5) * 0.15,
+    size: Math.random() * 1.5 + 0.5,
+    opacity: Math.random() * 0.3 + 0.1,
   };
 }
 
 function ParticleCanvas() {
   const ref = useRef<HTMLCanvasElement>(null);
-  const mouse = useRef({ x: -9999, y: -9999 });
   const particles = useRef<Particle[]>([]);
   const raf = useRef<number>(0);
 
@@ -33,16 +32,11 @@ function ParticleCanvas() {
     const resize = () => {
       canvas.width  = window.innerWidth;
       canvas.height = window.innerHeight;
-      particles.current = Array.from({ length: 90 }, () =>
+      particles.current = Array.from({ length: 50 }, () =>
         createParticle(canvas.width, canvas.height)
       );
     };
     resize();
-
-    const onMouseMove = (e: MouseEvent) => {
-      mouse.current = { x: e.clientX, y: e.clientY };
-    };
-    window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('resize', resize);
 
     const draw = () => {
@@ -56,46 +50,15 @@ function ParticleCanvas() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0,212,170,${p.opacity})`;
+        ctx.fillStyle = `rgba(255,255,255,${p.opacity})`;
         ctx.fill();
       }
-
-      // Connections
-      for (let i = 0; i < pts.length; i++) {
-        for (let j = i + 1; j < pts.length; j++) {
-          const dx = pts[i].x - pts[j].x;
-          const dy = pts[i].y - pts[j].y;
-          const d  = Math.sqrt(dx * dx + dy * dy);
-          if (d < 110) {
-            ctx.beginPath();
-            ctx.moveTo(pts[i].x, pts[i].y);
-            ctx.lineTo(pts[j].x, pts[j].y);
-            ctx.strokeStyle = `rgba(0,212,170,${0.25 * (1 - d / 110)})`;
-            ctx.lineWidth = 0.6;
-            ctx.stroke();
-          }
-        }
-        // Mouse interaction
-        const mx = pts[i].x - mouse.current.x;
-        const my = pts[i].y - mouse.current.y;
-        const md = Math.sqrt(mx * mx + my * my);
-        if (md < 160) {
-          ctx.beginPath();
-          ctx.moveTo(pts[i].x, pts[i].y);
-          ctx.lineTo(mouse.current.x, mouse.current.y);
-          ctx.strokeStyle = `rgba(99,102,241,${0.4 * (1 - md / 160)})`;
-          ctx.lineWidth = 0.9;
-          ctx.stroke();
-        }
-      }
-
       raf.current = requestAnimationFrame(draw);
     };
     draw();
 
     return () => {
       cancelAnimationFrame(raf.current);
-      window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', resize);
     };
   }, []);
@@ -103,21 +66,18 @@ function ParticleCanvas() {
   return (
     <canvas
       ref={ref}
-      className="absolute inset-0 pointer-events-none"
+      className="absolute inset-0 pointer-events-none opacity-40"
       style={{ zIndex: 0 }}
     />
   );
 }
 
 /* ── Terminal Animation ───────────────────────────────────────── */
-interface TermLine { type: string; text: string; }
-
 function Terminal() {
   const [lines, setLines] = useState<{ type: string; text: string }[]>([]);
   const [typing, setTyping] = useState('');
-  const [phase, setPhase] = useState(0); // index into terminalLines
+  const [phase, setPhase] = useState(0); 
   const [charIndex, setCharIndex] = useState(0);
-  const [showCursor, setShowCursor] = useState(true);
   const bodyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -125,15 +85,14 @@ function Terminal() {
     const current = terminalLines[phase];
 
     if (charIndex < current.text.length) {
-      const delay = current.type === 'cmd' ? 55 : 18;
+      const delay = current.type === 'cmd' ? 45 : 10;
       const t = setTimeout(() => {
         setTyping(current.text.slice(0, charIndex + 1));
         setCharIndex(c => c + 1);
       }, delay);
       return () => clearTimeout(t);
     } else {
-      // Line complete — pause then move on
-      const pause = current.type === 'cmd' ? 400 : 600;
+      const pause = current.type === 'cmd' ? 300 : 500;
       const t = setTimeout(() => {
         setLines(l => [...l, { type: current.type, text: current.text }]);
         setTyping('');
@@ -151,14 +110,13 @@ function Terminal() {
   }, [lines, typing]);
 
   return (
-    <div className="terminal w-full max-w-lg mx-auto animate-float"
-      style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(0,212,170,0.08)' }}>
+    <div className="terminal w-full max-w-lg mx-auto animate-float">
       <div className="terminal-bar">
-        <div className="terminal-dot" style={{ background: '#ff5f57' }} />
-        <div className="terminal-dot" style={{ background: '#febc2e' }} />
-        <div className="terminal-dot" style={{ background: '#28c840' }} />
-        <span className="ml-3 text-white/30 text-xs font-mono select-none">
-          swapnil@homelab:~
+        <div className="terminal-dot" style={{ background: '#333' }} />
+        <div className="terminal-dot" style={{ background: '#333' }} />
+        <div className="terminal-dot" style={{ background: '#333' }} />
+        <span className="ml-3 text-white/40 text-xs font-mono select-none">
+          swapnil@jm-financial:~
         </span>
       </div>
       <div ref={bodyRef} className="terminal-body overflow-y-auto" style={{ maxHeight: '300px' }}>
@@ -166,7 +124,7 @@ function Terminal() {
           <div key={i}>
             {line.type === 'cmd' && (
               <div>
-                <span className="terminal-prompt">❯ </span>
+                <span className="terminal-prompt">$ </span>
                 <span className="terminal-cmd">{line.text}</span>
               </div>
             )}
@@ -179,7 +137,7 @@ function Terminal() {
           <div>
             {terminalLines[phase]?.type === 'cmd' && (
               <div>
-                <span className="terminal-prompt">❯ </span>
+                <span className="terminal-prompt">$ </span>
                 <span className="terminal-cmd">{typing}</span>
                 <span className="cursor-blink" />
               </div>
@@ -191,7 +149,7 @@ function Terminal() {
         )}
         {phase >= terminalLines.length && (
           <div>
-            <span className="terminal-prompt">❯ </span>
+            <span className="terminal-prompt">$ </span>
             <span className="cursor-blink" />
           </div>
         )}
@@ -220,10 +178,9 @@ function useCountUp(target: number, started: boolean, duration = 1800) {
 /* ── Typewriter Role ─────────────────────────────────────────── */
 const ROLES = [
   'Backend Developer',
-  'Spring Boot Engineer',
-  'Microservices Architect',
-  'DevOps Enthusiast',
-  'System Design Thinker',
+  'Systems Architect',
+  'Trading API Engineer',
+  'Microservices Expert',
 ];
 
 function TypewriterRole() {
@@ -236,11 +193,11 @@ function TypewriterRole() {
     let timeout: ReturnType<typeof setTimeout>;
 
     if (!deleting && text.length < role.length) {
-      timeout = setTimeout(() => setText(role.slice(0, text.length + 1)), 90);
+      timeout = setTimeout(() => setText(role.slice(0, text.length + 1)), 60);
     } else if (!deleting && text.length === role.length) {
-      timeout = setTimeout(() => setDeleting(true), 2200);
+      timeout = setTimeout(() => setDeleting(true), 2000);
     } else if (deleting && text.length > 0) {
-      timeout = setTimeout(() => setText(role.slice(0, text.length - 1)), 45);
+      timeout = setTimeout(() => setText(role.slice(0, text.length - 1)), 30);
     } else if (deleting && text.length === 0) {
       setDeleting(false);
       setRoleIdx(i => (i + 1) % ROLES.length);
@@ -249,7 +206,7 @@ function TypewriterRole() {
   }, [text, deleting, roleIdx]);
 
   return (
-    <span className="font-mono text-xl sm:text-2xl font-medium" style={{ color: 'var(--cyan)' }}>
+    <span className="font-mono text-xl sm:text-2xl font-medium" style={{ color: 'var(--text-1)' }}>
       {text}
       <span className="cursor-blink" />
     </span>
@@ -261,10 +218,10 @@ function StatCard({ stat, started }: { stat: typeof heroStats[0]; started: boole
   const value = useCountUp(stat.value, started);
   return (
     <div className="stat-card">
-      <div className="text-2xl font-black font-mono" style={{ color: 'var(--cyan)' }}>
+      <div className="text-2xl font-bold font-sans" style={{ color: 'var(--text-1)' }}>
         {value}{stat.suffix}
       </div>
-      <div className="text-xs mt-1" style={{ color: 'var(--text-2)' }}>{stat.label}</div>
+      <div className="text-xs mt-1 font-medium text-[var(--text-2)] uppercase tracking-wider">{stat.label}</div>
     </div>
   );
 }
@@ -294,15 +251,7 @@ export default function Hero() {
       style={{ background: 'var(--bg-0)' }}
     >
       {/* Grid background */}
-      <div className="absolute inset-0 grid-bg opacity-60" />
-
-      {/* Ambient orbs */}
-      <div className="orb w-[600px] h-[600px] -top-48 -left-48"
-        style={{ background: 'rgba(0,212,170,0.06)', animationDelay: '0s' }} />
-      <div className="orb w-[500px] h-[500px] top-1/2 -right-48"
-        style={{ background: 'rgba(99,102,241,0.07)', animationDelay: '-4s' }} />
-      <div className="orb w-[400px] h-[400px] bottom-0 left-1/3"
-        style={{ background: 'rgba(244,114,182,0.04)', animationDelay: '-8s' }} />
+      <div className="absolute inset-0 grid-bg opacity-40" />
 
       {/* Particles */}
       <ParticleCanvas />
@@ -313,45 +262,34 @@ export default function Hero() {
           {/* LEFT: Text content */}
           <div style={{ animation: 'fadeUp 0.8s ease-out both' }}>
             <div className="section-label mb-6" style={{ animationDelay: '0.1s' }}>
-              Available for opportunities
+              System Engineering & Architecture
             </div>
 
-            <p className="text-base mb-3" style={{ color: 'var(--text-2)' }}>
-              Hi, I&apos;m
-            </p>
-
-            <h1
-              className="hero-name glitch mb-3"
-              data-text="Swapnil Shah"
-            >
-              <span className="text-gradient">Swapnil</span>
-              <br />
-              <span style={{ color: 'var(--text-1)' }}>Shah</span>
+            <h1 className="hero-name mb-4">
+              <span className="text-gradient">Swapnil Shah</span>
             </h1>
 
             <div className="mb-6 h-8">
               <TypewriterRole />
             </div>
 
-            <p className="text-base leading-relaxed mb-8 max-w-lg"
+            <p className="text-[0.95rem] leading-relaxed mb-8 max-w-lg"
               style={{ color: 'var(--text-2)', animation: 'fadeUp 0.8s 0.3s ease-out both' }}>
-              Building high-throughput microservices at{' '}
-              <span style={{ color: 'var(--cyan)', fontWeight: 600 }}>JM Financial</span>
-              {' '}— powering{' '}
+              Architecting high-throughput microservices and institutional-grade Trading APIs at{' '}
+              <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>JM Financial</span>
+              {' '}— powering execution and routing for{' '}
               <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>500K+</span>
-              {' '}daily users on the BlinkX trading platform.
-              Passionate about system design, observability, and self-hosted infrastructure.
+              {' '}daily active users on the BlinkX platform.
             </p>
 
             {/* CTA buttons */}
-            <div className="flex flex-wrap gap-3 mb-10"
+            <div className="flex flex-wrap gap-4 mb-10"
               style={{ animation: 'fadeUp 0.8s 0.4s ease-out both' }}>
               <button
                 onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
                 className="btn-primary"
               >
-                View My Work
-                <ArrowDown size={16} />
+                View Engineering Work
               </button>
               <a
                 href="/Swapnil_Shah_Backend_Developer_v2.pdf"
@@ -359,12 +297,12 @@ export default function Hero() {
                 className="btn-outline"
               >
                 <Download size={16} />
-                Download Resume
+                Resume
               </a>
             </div>
 
             {/* Social links */}
-            <div className="flex items-center gap-5"
+            <div className="flex items-center gap-4"
               style={{ animation: 'fadeUp 0.8s 0.5s ease-out both' }}>
               {[
                 { icon: Github, href: personalInfo.github, label: 'GitHub' },
@@ -377,27 +315,25 @@ export default function Hero() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-10 h-10 rounded-xl border flex items-center justify-center transition-all duration-200 hover:-translate-y-1"
+                  className="w-10 h-10 rounded-lg border flex items-center justify-center transition-all duration-200 hover:-translate-y-1"
                   style={{
                     borderColor: 'var(--border)',
                     color: 'var(--text-2)',
-                    background: 'var(--bg-card)',
+                    background: 'var(--bg-1)',
                   }}
                   onMouseEnter={e => {
-                    (e.currentTarget as HTMLElement).style.borderColor = 'var(--cyan)';
-                    (e.currentTarget as HTMLElement).style.color = 'var(--cyan)';
-                    (e.currentTarget as HTMLElement).style.boxShadow = 'var(--glow-cyan)';
+                    (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-hover)';
+                    (e.currentTarget as HTMLElement).style.color = 'var(--text-1)';
                   }}
                   onMouseLeave={e => {
                     (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)';
                     (e.currentTarget as HTMLElement).style.color = 'var(--text-2)';
-                    (e.currentTarget as HTMLElement).style.boxShadow = 'none';
                   }}
                 >
                   <Icon size={18} />
                 </a>
               ))}
-              <span className="text-sm ml-1" style={{ color: 'var(--text-3)' }}>
+              <span className="text-sm ml-2 font-medium" style={{ color: 'var(--text-3)' }}>
                 {personalInfo.location}
               </span>
             </div>
@@ -415,7 +351,7 @@ export default function Hero() {
         {/* Stats row */}
         <div
           ref={statsRef}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-14"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16"
           style={{ animation: 'fadeUp 0.8s 0.6s ease-out both' }}
         >
           {heroStats.map(stat => (
@@ -427,20 +363,20 @@ export default function Hero() {
       {/* Scroll indicator */}
       <button
         onClick={scrollDown}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 group"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 group"
         aria-label="Scroll down"
         style={{ animation: 'fadeIn 1s 1.2s ease-out both' }}
       >
-        <span className="text-xs font-mono tracking-widest"
-          style={{ color: 'var(--text-3)' }}>SCROLL</span>
+        <span className="text-[0.65rem] font-bold tracking-[0.2em] uppercase"
+          style={{ color: 'var(--text-3)' }}>EXPLORE</span>
         <div
-          className="w-6 h-10 rounded-full border-2 flex items-start justify-center p-1 group-hover:border-[var(--cyan)] transition-colors"
+          className="w-5 h-8 rounded-full border flex items-start justify-center p-1 transition-colors"
           style={{ borderColor: 'var(--border)' }}
         >
           <div
-            className="w-1 h-2.5 rounded-full"
+            className="w-1 h-2 rounded-full"
             style={{
-              background: 'var(--cyan)',
+              background: 'var(--text-2)',
               animation: 'float 2s ease-in-out infinite',
             }}
           />
