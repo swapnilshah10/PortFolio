@@ -106,8 +106,8 @@ const jsonLd = {
   url: BASE_URL,
   image: `${BASE_URL}/avatar.png`,
   sameAs: [
-    'https://github.com/Swapnil-Shah9671',
-    'https://linkedin.com/in/swapnilshah10',
+    'https://github.com/swapnilshah10',
+    'https://linkedin.com/in/Swapnil-Shah9671',
   ],
   jobTitle: 'Backend Developer',
   worksFor: {

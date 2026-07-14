@@ -40,7 +40,7 @@ const CONTACTS = [
   {
     icon: Github,
     label: 'GitHub',
-    value: 'Swapnil-Shah9671',
+    value: 'swapnilshah10',
     href: personalInfo.github,
     accent: '#6366f1',
     glow: 'rgba(99,102,241,0.3)',
@@ -49,7 +49,7 @@ const CONTACTS = [
   {
     icon: Linkedin,
     label: 'LinkedIn',
-    value: 'swapnilshah10',
+    value: 'Swapnil-Shah9671',
     href: personalInfo.linkedin,
     accent: '#0ea5e9',
     glow: 'rgba(14,165,233,0.3)',
