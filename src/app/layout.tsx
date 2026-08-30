@@ -48,6 +48,13 @@ export const metadata: Metadata = {
     'Traders Diary',
     'Self-Hosted Infrastructure',
     'Cloudflare Tunnel',
+    'Swapnil Shah JMPro',
+    'Swapnil Shah BondsKart',
+    'Swapnil Shah Sensible',
+    'Swapnil Shah SilentKillerOp',
+    'Algorithmic Trading Developer',
+    'Options Trading Python',
+    'Dhan API',
   ],
   authors: [{ name: 'Swapnil Shah', url: BASE_URL }],
   creator: 'Swapnil Shah',
@@ -88,9 +95,6 @@ export const metadata: Metadata = {
     },
   },
   alternates: { canonical: BASE_URL },
-  verification: {
-    google: 'your-google-site-verification',
-  },
 };
 
 export const viewport: Viewport = {
@@ -105,6 +109,8 @@ const jsonLd = {
   name: 'Swapnil Shah',
   url: BASE_URL,
   image: `${BASE_URL}/avatar.png`,
+  description:
+    'Backend Developer with 1.5+ years at JM Financial (BlinkX trading platform) building Spring Boot microservices serving 500K+ daily users.',
   sameAs: [
     'https://github.com/swapnilshah10',
     'https://linkedin.com/in/Swapnil-Shah9671',
@@ -121,6 +127,7 @@ const jsonLd = {
   knowsAbout: [
     'Java', 'Spring Boot', 'Microservices', 'Redis', 'Docker',
     'GCP', 'Kafka', 'REST APIs', 'System Design', 'DevOps',
+    'Python', 'MySQL', 'Next.js', 'Algorithmic Trading', 'OpenResty',
   ],
   address: {
     '@type': 'PostalAddress',

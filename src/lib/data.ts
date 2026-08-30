@@ -67,7 +67,7 @@ export const experience = [
   {
     title: 'Software Developer',
     company: 'JM Financial Ltd',
-    product: 'BlinkX Trading Platform',
+    product: 'BlinkX · JMPro · BondsKart',
     duration: 'Jun 2024 – Present',
     location: 'Mumbai, India',
     type: 'Full-Time',
@@ -100,8 +100,28 @@ export const experience = [
         metric: '15+ Services',
         text: 'Built and maintained 15+ Spring Boot microservices with Grafana monitoring, Docker containerization, and automated deployments on Google Cloud Platform.',
       },
+      {
+        metric: 'DB Migration',
+        text: 'Led a MySQL migration adding unique indexes to resolve duplicate-key violations under strict production constraints (single-statement execution, no stored procedures, 300s timeout) via a custom batched staging-table deletion approach — while auditing schema drift across 190+ tables and 158 columns between UAT and Production.',
+      },
+      {
+        metric: 'Idempotent DB Sync',
+        text: 'Built set_based.py, a Python watermark-based incremental sync engine that merges multiple live production databases into a base database through a staging layer, enabling safe, repeatable reloads with zero manual intervention.',
+      },
+      {
+        metric: 'Edge Rate Limiting',
+        text: 'Implemented OpenResty/Lua fixed-window rate limiting at the edge and mapped the migration path to Redis-backed counters for distributed, multi-node deployments.',
+      },
+      {
+        metric: 'Security Tooling',
+        text: 'Built an internal pre-audit security scan to catch recurring vulnerability patterns ahead of external third-party security audits.',
+      },
+      {
+        metric: 'Product Ownership',
+        text: 'Took full ownership of BondsKart with no formal handover — audited inherited technical debt (missing input validation, unused cost-driving infrastructure, cache bugs, single-point-of-failure data storage) and escalated it to leadership through a structured, risk-first framing.',
+      },
     ],
-    tech: ['Java', 'Spring Boot', 'Redis', 'MySQL', 'Docker', 'GCP', 'Grafana', 'Prometheus', 'Kafka', 'JPA/Hibernate', 'Bucket4j', 'OAuth2'],
+    tech: ['Java', 'Spring Boot', 'Python', 'Redis', 'MySQL', 'Docker', 'GCP', 'Grafana', 'Prometheus', 'Kafka', 'JPA/Hibernate', 'Bucket4j', 'OAuth2', 'OpenResty/Lua'],
   },
 ];
 
@@ -153,6 +173,70 @@ export const projects = [
     accentDim: 'rgba(255,255,255,0.05)',
     github: '',
     icon: '☁️',
+  },
+  {
+    title: 'Sensible — Options Analytics Terminal',
+    description: 'Open-source options analytics platform for Indian index options (NIFTY, BANKNIFTY, SENSEX, BANKEX), built on the Dhan Data API. Phase 1 shipped as v0.1.0.',
+    tech: ['Python', 'Dhan Data API', 'Options Pricing', 'Open Source'],
+    highlights: [
+      'Built optcore, a pure options-pricing library kept side-effect-free by an AST purity test enforced in CI.',
+      'Built optdhan, the broker-integration layer handling all live market-data I/O and Dhan API quirks.',
+      'Self-documenting project with a 13-file architecture/decisions guide covering pricing math, deployment, and known gaps.',
+      'Phase 2 backtester underway — replays a shared StrategySpec against recorded option chains via a DataSource protocol.'
+    ],
+    category: 'Fintech · Options Analytics · Open Source',
+    accent: '#ffffff',
+    accentDim: 'rgba(255,255,255,0.05)',
+    github: '',
+    icon: '📊',
+  },
+  {
+    title: "Milla's Bakery",
+    description: 'End-to-end website and hosting for a friend\'s home bakery business — WhatsApp/Instagram-based ordering, built and shipped as a full side-project engagement from domain to deploy.',
+    tech: ['Next.js 16', 'Tailwind CSS v4', 'Framer Motion', 'Vercel', 'GA4', 'Cloudflare DNS'],
+    highlights: [
+      'Single-page marketing site: hero, "Bake Case" product menu, story section, and a WhatsApp/Instagram DM ordering flow.',
+      'GA4 analytics with custom order_click and instagram_click events wired through a shared TrackedLink component.',
+      'JSON-LD Bakery structured data, sitemap, and canonical SEO setup driven by a single site-URL config.',
+      'Migrated from self-hosted Nginx + Cloudflare Tunnel to Vercel with a custom domain on Cloudflare DNS, auto-deploying on every push to main.'
+    ],
+    category: 'Web Dev · Next.js · Small Business',
+    accent: '#ffffff',
+    accentDim: 'rgba(255,255,255,0.05)',
+    github: 'https://github.com/swapnilshah10/MillaBakes',
+    icon: '🧁',
+  },
+  {
+    title: 'SilentKillerOp — URL Shortener & Media Hub',
+    description: 'Personal full-stack site combining a Bitly-style URL shortener with a YouTube-style video hub and embedded browser games, self-built and self-hosted end to end.',
+    tech: ['Next.js 16', 'React 19', 'Django', 'Gunicorn', 'Vercel', 'Cloudflare'],
+    highlights: [
+      'Django + Gunicorn backend serving shortened-link redirects behind an Nginx reverse proxy and Cloudflare Tunnel.',
+      'Next.js 16 (React 19, App Router) frontend with ISR-cached playlist pages, migrated from self-hosted to Vercel.',
+      'Custom domain split across Vercel (frontend) and the home-server tunnel (API) via Cloudflare CNAME flattening at the apex.',
+      'Embeds two self-built browser games (Dice Chess, Ultimate Tic-Tac-Toe) in a Games menu.'
+    ],
+    category: 'Full-Stack · Next.js · Self-Hosted',
+    accent: '#ffffff',
+    accentDim: 'rgba(255,255,255,0.05)',
+    github: '',
+    icon: '🔗',
+  },
+  {
+    title: 'Algorithmic Options Trading Engine',
+    description: 'Python backtesting framework and live execution bridge for Nifty/BankNifty options strategies — from historical strategy research through paper and live deployment on the Dhan broker API.',
+    tech: ['Python', 'Dhan API', 'DuckDB', 'Pandas', 'Backtesting'],
+    highlights: [
+      'Built a bar-by-bar backtest engine with realistic margin, slippage, and cost modeling — catching real bugs like lookahead bias and mis-pinned expiries before they touched real money.',
+      'Ran systematic robustness sweeps across entry triggers and volatility regimes to validate strategies against curve-fitting.',
+      'Shipped a live execution bridge (shared decision core + runner) to Dhan\'s broker API with sandboxed order placement and a monthly circuit breaker.',
+      'Iron condor strategy running in paper trading as a pre-live validation step before capital is committed.'
+    ],
+    category: 'Quant Finance · Python · Algo Trading',
+    accent: '#ffffff',
+    accentDim: 'rgba(255,255,255,0.05)',
+    github: '',
+    icon: '📉',
   },
 ];
 
