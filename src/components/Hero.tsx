@@ -29,9 +29,9 @@ function Rotator() {
   const reduce = useReducedMotion();
   useEffect(() => { if (reduce) return; const t = setInterval(() => setI(v => (v + 1) % ROLES.length), 2600); return () => clearInterval(t); }, [reduce]);
   return (
-    <span className="relative inline-flex min-h-[2.4em] sm:min-h-0 sm:h-[1.3em] max-w-full sm:overflow-hidden align-top sm:align-bottom">
+    <span className="relative inline-flex min-h-[2.15em] max-w-full align-top">
       <motion.span key={i} initial={{ y: '100%', opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="gradient-text sm:whitespace-nowrap">{ROLES[i]}</motion.span>
+        className="gradient-text">{ROLES[i]}</motion.span>
     </span>
   );
 }
@@ -65,21 +65,21 @@ function Terminal() {
   }, [shown, typed, reduce]);
 
   return (
-    <div className="spot !rounded-2xl font-mono text-[13px] leading-relaxed shadow-2xl shadow-emerald-500/5">
+    <div className="spot !rounded-2xl font-mono text-[13px] leading-relaxed shadow-2xl shadow-lime-500/5">
       <div className="flex items-center gap-2 px-4 py-3 border-b border-white/[0.07]">
-        <i className="size-2.5 rounded-full bg-red-400/80" /><i className="size-2.5 rounded-full bg-amber-300/80" /><i className="size-2.5 rounded-full bg-emerald-400/80" />
+        <i className="size-2.5 rounded-full bg-red-400/80" /><i className="size-2.5 rounded-full bg-amber-300/80" /><i className="size-2.5 rounded-full bg-lime-400/80" />
         <span className="ml-3 text-xs text-slate-400">swapnil@prod ~ zsh</span>
       </div>
       <div className="p-5 min-h-[300px] space-y-2" aria-live="off">
         {terminalLines.slice(0, shown).map((l, i) => (
-          <div key={i} className={l.type === 'cmd' ? 'text-slate-200' : 'text-emerald-300/90 whitespace-pre-wrap pl-4'}>
-            {l.type === 'cmd' && <span className="text-emerald-400">❯ </span>}{l.text}
+          <div key={i} className={l.type === 'cmd' ? 'text-slate-200' : 'text-lime-300/90 whitespace-pre-wrap pl-4'}>
+            {l.type === 'cmd' && <span className="text-lime-400">❯ </span>}{l.text}
           </div>
         ))}
         {shown < terminalLines.length && terminalLines[shown].type === 'cmd' && (
-          <div className="text-slate-200 caret"><span className="text-emerald-400">❯ </span>{typed}</div>
+          <div className="text-slate-200 caret"><span className="text-lime-400">❯ </span>{typed}</div>
         )}
-        {shown >= terminalLines.length && <div className="caret text-emerald-400">❯ </div>}
+        {shown >= terminalLines.length && <div className="caret text-lime-400">❯ </div>}
       </div>
     </div>
   );
@@ -95,21 +95,21 @@ export default function Hero() {
     <section ref={ref} className="relative min-h-screen flex items-center overflow-hidden pt-28 pb-16">
       <div aria-hidden className="absolute inset-0 grid-bg" />
       <div aria-hidden className="aurora absolute inset-0">
-        <i className="w-[46vw] h-[46vw] -top-[12vw] left-[8vw] bg-[radial-gradient(closest-side,rgba(16,185,129,.5),transparent)]" />
+        <i className="w-[46vw] h-[46vw] -top-[12vw] left-[8vw] bg-[radial-gradient(closest-side,rgba(217,70,239,.5),transparent)]" />
         <i className="w-[38vw] h-[38vw] top-[8vw] right-[2vw] bg-[radial-gradient(closest-side,rgba(14,165,233,.42),transparent)] [animation-delay:-6s]" />
-        <i className="w-[30vw] h-[30vw] top-[30vw] left-[40vw] bg-[radial-gradient(closest-side,rgba(124,58,237,.38),transparent)] [animation-delay:-11s]" />
+        <i className="w-[30vw] h-[30vw] top-[30vw] left-[40vw] bg-[radial-gradient(closest-side,rgba(163,230,53,.38),transparent)] [animation-delay:-11s]" />
       </div>
 
       <motion.div style={{ y, opacity: fade }} className="relative mx-auto w-full max-w-6xl px-6 grid lg:grid-cols-[1.15fr_1fr] gap-14 items-center">
         <div className="min-w-0">
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
             className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs text-slate-300 mb-8">
-            <span className="relative flex size-2"><span className="absolute inline-flex size-full rounded-full bg-emerald-400 opacity-75 animate-ping" /><span className="relative inline-flex size-2 rounded-full bg-emerald-400" /></span>
-            Open to backend &amp; fintech roles
+            <span className="relative flex size-2"><span className="absolute inline-flex size-full rounded-full bg-lime-400 opacity-75 animate-ping" /><span className="relative inline-flex size-2 rounded-full bg-lime-400" /></span>
+            Player 1 ready · open to backend &amp; fintech roles
             <span className="text-slate-400 flex items-center gap-1"><MapPin size={11} />Mumbai</span>
           </motion.div>
 
-          <h1 className="text-[2.4rem] sm:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.02]">
+          <h1 className="text-[2.1rem] sm:text-5xl lg:text-[3.6rem] font-semibold tracking-tight leading-[1.02]">
             <Words text="Swapnil Shah" />
             <br />
             <Words text="builds" delay={0.25} className="text-slate-400" />{' '}
@@ -124,7 +124,8 @@ export default function Hero() {
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.5 }}
             className="mt-9 flex flex-wrap items-center gap-3">
-            <button className="btn-primary" onClick={() => scrollToId('projects')}>View projects <ArrowDownRight size={16} /></button>
+            <button className="btn-primary" onClick={() => scrollToId('projects')}><span className="press-start">▶</span> Press start <ArrowDownRight size={16} /></button>
+            <button className="btn-ghost" onClick={() => scrollToId('arcade')}>Play games</button>
             <button className="btn-ghost" onClick={() => scrollToId('contact')}>Get in touch</button>
             <div className="flex items-center gap-1 ml-1">
               {[{ I: Github, h: personalInfo.github, l: 'GitHub' }, { I: Linkedin, h: personalInfo.linkedin, l: 'LinkedIn' }, { I: Mail, h: `mailto:${personalInfo.email}`, l: 'Email' }].map(({ I, h, l }) => (
@@ -143,8 +144,8 @@ export default function Hero() {
         <motion.dl initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.6 }}
           className="lg:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-px min-w-0 rounded-2xl overflow-hidden border border-white/10 bg-white/10">
           {heroStats.map(s => (
-            <div key={s.label} className="bg-[#04070f] px-6 py-6">
-              <dt className="text-xs text-slate-400 uppercase tracking-wider order-2">{s.label}</dt>
+            <div key={s.label} className="bg-[#0a0614] px-6 py-6">
+              <dt className="pixel text-[9px] text-pink-400 leading-relaxed uppercase">{s.label}</dt>
               <dd className="mt-1 text-3xl md:text-4xl font-semibold gradient-text"><Counter to={s.value} suffix={s.suffix} /></dd>
             </div>
           ))}

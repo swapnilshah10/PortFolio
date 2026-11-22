@@ -11,6 +11,8 @@
 ## Projects
 - [Atom Reaction](https://atomreaction.silentkillerop.me): realtime multiplayer chain-reaction game (FastAPI, WebSockets, React, Postgres)
 - [Atom Reaction source](https://github.com/swapnilshah10/atomReaction): game repository
+- [Dice Chess](https://dicechess.silentkillerop.me): chess variant where dice pick the piece
+- [Ultimate Tic-Tac-Toe](https://ultimatetictactoe.silentkillerop.me): nine-board strategy game
 - [SilentKillerOp](https://silentkillerop.me): URL shortener and media hub
 
 ## Highlights

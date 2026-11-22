@@ -5,7 +5,7 @@ import { motion } from 'motion/react';
 import { Command, Download } from 'lucide-react';
 import { scrollToId } from './Providers';
 
-const LINKS = ['about', 'skills', 'experience', 'projects', 'education', 'contact'];
+const LINKS = ['about', 'skills', 'experience', 'projects', 'arcade', 'contact'];
 
 export default function Navbar() {
   const [active, setActive] = useState('');
@@ -24,10 +24,10 @@ export default function Navbar() {
       initial={{ y: -40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className="fixed top-4 inset-x-0 z-50 flex justify-center px-4"
     >
-      <nav aria-label="Primary" className="flex items-center gap-1 rounded-full border border-white/10 bg-[#070b14]/70 backdrop-blur-xl px-2 py-1.5 shadow-lg shadow-black/40">
+      <nav aria-label="Primary" className="flex items-center gap-1 rounded-full border border-white/10 bg-[#0d0719]/70 backdrop-blur-xl px-2 py-1.5 shadow-lg shadow-black/40">
         <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="SS. back to top"
           className="px-3 py-1.5 text-sm font-semibold tracking-tight cursor-pointer">
-          <span className="gradient-text">SS</span><span className="text-emerald-400">.</span>
+          <span className="gradient-text">SS</span><span className="text-lime-400">.</span>
         </button>
         <ul className="hidden md:flex items-center">
           {LINKS.map(id => (
@@ -45,7 +45,7 @@ export default function Navbar() {
           <Command size={12} /> <span className="hidden sm:inline">K</span>
         </button>
         <a href="/Swapnil_Shah_Backend_Developer_v2.pdf" download
-          className="ml-1 flex items-center gap-1.5 rounded-full bg-emerald-400 text-[#02040a] px-3.5 py-1.5 text-[13px] font-semibold hover:bg-emerald-300 transition-colors cursor-pointer">
+          className="ml-1 flex items-center gap-1.5 rounded-full bg-lime-400 text-[#07040f] px-3.5 py-1.5 text-[13px] font-semibold hover:bg-lime-300 transition-colors cursor-pointer">
           <Download size={13} /> Résumé
         </a>
       </nav>

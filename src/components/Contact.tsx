@@ -32,7 +32,7 @@ export default function Contact() {
             <Reveal key={l} delay={i * 0.06}>
               <a href={h} target={h.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="block cursor-pointer">
                 <Spot className="p-5 flex items-center gap-4">
-                  <span className="grid place-items-center size-11 rounded-xl bg-white/5 border border-white/10"><I size={18} className="text-emerald-400" /></span>
+                  <span className="grid place-items-center size-11 rounded-xl bg-white/5 border border-white/10"><I size={18} className="text-lime-400" /></span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-xs text-slate-400">{l}</span>
                     <span className="block truncate text-[15px]">{v}</span>

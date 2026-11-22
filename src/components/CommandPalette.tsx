@@ -18,7 +18,7 @@ export default function CommandPalette() {
   const input = useRef<HTMLInputElement>(null);
 
   const items = useMemo<Item[]>(() => [
-    ...['about', 'skills', 'experience', 'projects', 'education', 'contact'].map(s => ({ label: `Go to ${s}`, hint: 'Section', icon: Hash, run: go(s) })),
+    ...['about', 'skills', 'experience', 'projects', 'arcade', 'education', 'contact'].map(s => ({ label: `Go to ${s}`, hint: 'Section', icon: Hash, run: go(s) })),
     ...projects.map(p => ({ label: p.title, hint: 'Project', icon: Rocket, run: go('projects') })),
     { label: 'Download résumé', hint: 'PDF', icon: FileText, run: open('/Swapnil_Shah_Backend_Developer_v2.pdf') },
     { label: 'GitHub', hint: 'Link', icon: Github, run: open(personalInfo.github) },
@@ -48,7 +48,7 @@ export default function CommandPalette() {
         <motion.div className="fixed inset-0 z-[80] flex items-start justify-center pt-[15vh] px-4 bg-black/60 backdrop-blur-sm"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setOn(false)}>
           <motion.div role="dialog" aria-label="Command palette" aria-modal="true"
-            className="w-full max-w-xl rounded-2xl border border-white/10 bg-[#070b14]/95 shadow-2xl shadow-emerald-500/10 overflow-hidden"
+            className="w-full max-w-xl rounded-2xl border border-white/10 bg-[#0d0719]/95 shadow-2xl shadow-lime-500/10 overflow-hidden"
             initial={{ y: -16, scale: 0.97, opacity: 0 }} animate={{ y: 0, scale: 1, opacity: 1 }} exit={{ y: -10, scale: 0.98, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 380, damping: 32 }} onClick={e => e.stopPropagation()}>
             <div className="flex items-center gap-3 px-4 border-b border-white/10">
@@ -69,7 +69,7 @@ export default function CommandPalette() {
                 <li key={x.label + n}>
                   <button onMouseEnter={() => setI(n)} onClick={() => fire(x)}
                     className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-left cursor-pointer transition-colors ${n === i ? 'bg-white/[0.07] text-white' : 'text-slate-300'}`}>
-                    <x.icon size={15} className={n === i ? 'text-emerald-400' : 'text-slate-400'} />
+                    <x.icon size={15} className={n === i ? 'text-lime-400' : 'text-slate-400'} />
                     <span className="flex-1 truncate">{x.label}</span>
                     <span className="text-xs text-slate-400">{x.hint}</span>
                     {n === i && <CornerDownLeft size={13} className="text-slate-400" />}

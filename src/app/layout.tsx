@@ -1,14 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import { Chakra_Petch, Russo_One, Press_Start_2P, JetBrains_Mono } from 'next/font/google';
 import { faqs } from '@/lib/data';
 import Providers from '@/components/Providers';
 import './globals.css';
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
+const body = Chakra_Petch({ subsets: ['latin'], weight: ['300','400','500','600','700'], variable: '--font-inter', display: 'swap' });
+const display = Russo_One({ subsets: ['latin'], weight: '400', variable: '--font-display', display: 'swap' });
+const pixel = Press_Start_2P({ subsets: ['latin'], weight: '400', variable: '--font-pixel', display: 'swap' });
 
 const BASE_URL = 'https://personal.silentkillerop.me';
 
@@ -23,6 +21,8 @@ export const metadata: Metadata = {
   description:
     'Swapnil Shah is a Backend Developer in Mumbai at JM Financial (BlinkX), building Spring Boot microservices for 500K+ daily users. Portfolio, projects and résumé: Java, Go, Rust, Redis, Kafka, GCP, trading infrastructure.',
   keywords: [
+    'Swapnil Shah games',
+    'Swapnil Shah game developer',
     'Swapnil Shah Mumbai',
     'Swapnil Shah backend engineer',
     'Swapnil Shah GitHub',
@@ -111,7 +111,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#02040a',
+  themeColor: '#07040f',
   width: 'device-width',
   initialScale: 1,
 };
@@ -177,14 +177,14 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${body.variable} ${display.variable} ${pixel.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="noise">
+      <body className="noise scanlines">
         <Providers>{children}</Providers>
       </body>
     </html>

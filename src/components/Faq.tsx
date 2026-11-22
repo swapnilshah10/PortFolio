@@ -6,7 +6,7 @@ import { Reveal, SectionHead } from './ui';
 
 export default function Faq() {
   return (
-    <section id="faq" className="relative py-28 bg-[#04070f]/60 border-t border-white/[0.05]">
+    <section id="faq" className="relative py-28 bg-[#0a0614]/60 border-t border-white/[0.05]">
       <div className="mx-auto max-w-3xl px-6">
         <SectionHead label="faq" title={<>Who is <span className="gradient-text">Swapnil Shah</span>?</>} />
         <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
@@ -15,7 +15,7 @@ export default function Faq() {
               <details className="group py-5">
                 <summary className="flex items-center justify-between gap-4 cursor-pointer list-none font-medium text-lg">
                   <h3 className="text-lg font-medium">{f.q}</h3>
-                  <Plus size={18} className="shrink-0 text-emerald-400 transition-transform group-open:rotate-45" />
+                  <Plus size={18} className="shrink-0 text-lime-400 transition-transform group-open:rotate-45" />
                 </summary>
                 <p className="mt-3 text-slate-400 leading-relaxed">{f.a}</p>
               </details>

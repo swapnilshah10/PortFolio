@@ -317,25 +317,6 @@ export const projects = [
     icon: '🦀',
   },
   {
-    title: 'JAlgos — Registry-Driven Strategy Runner',
-    description: 'A live and paper execution framework where one strategy registry is the single source of truth: the same definitions drive the backtester, the paper runner and the live book.',
-    tech: ['Python', 'Pandas', 'DuckDB', 'systemd', 'Telegram Bot'],
-    highlights: [
-      'The backtest, built off the registry alone, reproduces the live book exactly — no parallel copies of strategy logic to drift apart.',
-      'Live bars are widened with exchange 1-minute high/low so sampled quotes cannot miss intrabar moves that the backtest would see.',
-      'Staged rollouts, margin-priority planning and daily EOD reports; a live-vs-backtest gap monitor investigates every divergence.',
-      'Runs unattended on a cloud VM with systemd timers, a shared feed hub and Telegram alerting.'
-    ],
-    category: 'Quant Infrastructure · Python · Execution',
-    group: 'research',
-    featured: false,
-    link: '',
-    accent: '#ffffff',
-    accentDim: 'rgba(255,255,255,0.05)',
-    github: '',
-    icon: '🧭',
-  },
-  {
     title: 'Strategy Atlas — Research Hygiene at Scale',
     description: 'A cross-idea study of 238 trading ideas (184k trades) built to answer one question honestly: do indicator filters transfer, or are they curve-fitting?',
     tech: ['Python', 'Pandas', 'DuckDB', 'Statistics', 'HTML reports'],
@@ -422,5 +403,60 @@ export const faqs = [
   { q: 'What does Swapnil Shah work on at JM Financial?', a: 'Trading APIs, a developer-portal OAuth flow, Redis and Bucket4j rate limiting, and performance work that cut the app-init API from 800 ms to 60-70 ms. He also owns the BondsKart product.' },
   { q: 'Which technologies does Swapnil Shah use?', a: 'Java, Spring Boot, Kafka, Redis, MySQL and PostgreSQL professionally; Go, Rust, Python and TypeScript in side projects; Docker, GCP, Grafana, Prometheus and Loki for delivery and observability.' },
   { q: 'What side projects has Swapnil Shah built?', a: 'Atom Reaction (a realtime multiplayer game), a crash-resumable order management system, a shared market-data feed with a Rust quote store, a strategy research lab, and a self-hosted homelab behind Cloudflare Tunnel.' },
+  { q: 'Which games has Swapnil Shah built?', a: 'Atom Reaction (realtime multiplayer chain-reaction game), Dice Chess and Ultimate Tic-Tac-Toe. All are live and playable in the browser from the Arcade section of this portfolio.' },
   { q: 'Is Swapnil Shah open to new roles?', a: 'Yes. He is looking for backend and fintech engineering roles. Email shah.swapnil@proton.me or connect on LinkedIn; the résumé PDF is on this page.' },
+];
+
+export const player = {
+  handle: 'SILENTKILLEROP',
+  class: 'Backend Engineer',
+  level: 24,
+  xp: 78,
+  guild: 'JM Financial',
+  stats: [
+    { label: 'Backend', value: 92 },
+    { label: 'Systems', value: 85 },
+    { label: 'Realtime', value: 80 },
+    { label: 'DevOps', value: 78 },
+    { label: 'Frontend', value: 70 },
+  ],
+};
+
+export const skillLevels = [
+  { name: 'Java', lv: 92 }, { name: 'Spring Boot', lv: 92 }, { name: 'Redis', lv: 88 }, { name: 'MySQL', lv: 86 },
+  { name: 'Python', lv: 84 }, { name: 'Docker / GCP', lv: 80 }, { name: 'Kafka', lv: 76 }, { name: 'Go', lv: 68 },
+  { name: 'Rust', lv: 58 }, { name: 'TypeScript / React', lv: 72 },
+];
+
+export const games = [
+  {
+    title: 'Atom Reaction',
+    tagline: 'Chain-reaction strategy for up to 10 players',
+    blurb: 'Place atoms, trigger chain explosions, capture the board. Live rooms, spectators, chat, daily puzzles, 7 languages, installable PWA.',
+    url: 'https://atomreaction.silentkillerop.me',
+    embed: '',
+    stack: ['FastAPI', 'WebSockets', 'React', 'Postgres'],
+    genre: 'Multiplayer · Strategy',
+    players: '2-10',
+  },
+  {
+    title: 'Dice Chess',
+    tagline: 'Chess where the dice pick your piece',
+    blurb: 'A self-built browser chess variant: roll the dice, move the piece it names. Quick games, constant surprises.',
+    url: 'https://dicechess.silentkillerop.me',
+    embed: 'https://dicechess.silentkillerop.me',
+    stack: ['JavaScript', 'Canvas'],
+    genre: 'Board · Chess variant',
+    players: '1-2',
+  },
+  {
+    title: 'Ultimate Tic-Tac-Toe',
+    tagline: 'Nine boards, one winner',
+    blurb: 'Every move decides which board your opponent plays next. Tic-tac-toe with real strategy depth.',
+    url: 'https://ultimatetictactoe.silentkillerop.me',
+    embed: 'https://ultimatetictactoe.silentkillerop.me',
+    stack: ['JavaScript', 'CSS'],
+    genre: 'Board · Strategy',
+    players: '1-2',
+  },
 ];

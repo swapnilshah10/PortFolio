@@ -14,6 +14,8 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-mono)', 'monospace'],
+        display: ['var(--font-display)', 'var(--font-inter)', 'sans-serif'],
+        pixel: ['var(--font-pixel)', 'monospace'],
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',

@@ -31,7 +31,7 @@ export default function Providers({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <motion.div aria-hidden style={{ scaleX }} className="fixed top-0 left-0 right-0 h-[2px] origin-left z-[70] bg-gradient-to-r from-emerald-400 via-sky-400 to-violet-400" />
+      <motion.div aria-hidden style={{ scaleX }} className="fixed top-0 left-0 right-0 h-[2px] origin-left z-[70] bg-gradient-to-r from-lime-400 via-cyan-400 to-pink-400" />
       <CommandPalette />
       {children}
     </>
