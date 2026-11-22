@@ -9,15 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        brand: {
-          dark: '#050505',
-          card: '#0a0a0a',
-          accent: '#3b82f6',
-        },
+        brand: { dark: '#02040a', accent: '#22c55e', sky: '#38bdf8' },
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-jetbrains)', 'monospace'],
+        mono: ['var(--font-mono)', 'monospace'],
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',

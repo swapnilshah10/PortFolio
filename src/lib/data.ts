@@ -8,7 +8,7 @@ export const personalInfo = {
   github: 'https://github.com/swapnilshah10',
   linkedin: 'https://linkedin.com/in/Swapnil-Shah9671',
   summary:
-    'Backend Developer with 1.5+ years at JM Financial (BlinkX trading platform) building scalable Spring Boot microservices and high-throughput RESTful APIs serving 500K+ daily active users. Proficient in Java, Python, Redis, MySQL, Docker, and GCP. Passionate about algorithmic trading, self-hosted infrastructure, observability with Grafana, Prometheus, and Loki.',
+    'Backend Developer with 2+ years at JM Financial (BlinkX trading platform) building scalable Spring Boot microservices and high-throughput RESTful APIs serving 500K+ daily active users. Proficient in Java, Python, Go, Rust, Redis, MySQL, Postgres, Docker, and GCP. Off the clock I build trading infrastructure — market-data feeds, a crash-resumable order management system, a backtesting lab — plus multiplayer games, all self-hosted with full observability.',
 };
 
 export const heroStats = [
@@ -23,25 +23,25 @@ export const skills = [
     category: 'Languages',
     color: '#ffffff',
     glow: 'rgba(255,255,255,0.1)',
-    items: ['Java', 'Python', 'Go', 'C++', 'JavaScript', 'SQL', 'Bash/Shell'],
+    items: ['Java', 'Python', 'Go', 'Rust', 'TypeScript', 'C++', 'SQL', 'Bash/Shell'],
   },
   {
     category: 'Backend',
     color: '#ffffff',
     glow: 'rgba(255,255,255,0.1)',
-    items: ['Spring Boot', 'REST APIs', 'JWT/OAuth2', 'Kafka', 'JPA/Hibernate', 'Flask', 'Gunicorn', 'APScheduler'],
+    items: ['Spring Boot', 'REST APIs', 'JWT/OAuth2', 'Kafka', 'JPA/Hibernate', 'FastAPI', 'Flask', 'WebSockets', 'Gunicorn', 'APScheduler'],
   },
   {
     category: 'Datastores',
     color: '#ffffff',
     glow: 'rgba(255,255,255,0.1)',
-    items: ['MySQL', 'Redis', 'MongoDB', 'SQLite', 'HikariCP'],
+    items: ['MySQL', 'PostgreSQL', 'Redis', 'MongoDB', 'SQLite (WAL)', 'DuckDB', 'Parquet', 'HikariCP'],
   },
   {
     category: 'Infrastructure',
     color: '#ffffff',
     glow: 'rgba(255,255,255,0.1)',
-    items: ['Docker', 'Nginx', 'Cloudflare Tunnel', 'Systemd', 'Linux', 'GCP Cloud Console'],
+    items: ['Docker', 'Nginx', 'Cloudflare Tunnel', 'Tailscale', 'Systemd', 'Linux', 'Oracle Cloud', 'GCP Cloud Console'],
   },
   {
     category: 'Monitoring',
@@ -53,7 +53,7 @@ export const skills = [
     category: 'Frontend & Tools',
     color: '#ffffff',
     glow: 'rgba(255,255,255,0.1)',
-    items: ['React.js', 'Next.js', 'Tailwind CSS', 'Git', 'GitHub', 'Postman', 'Jira', 'Trading APIs', 'Telegram Bot API'],
+    items: ['React.js', 'Next.js', 'Vite', 'Tailwind CSS', 'Motion', 'Git', 'GitHub', 'Postman', 'Jira', 'Trading APIs', 'Telegram Bot API'],
   },
   {
     category: 'Concepts',
@@ -140,6 +140,9 @@ export const projects = [
     accent: '#ffffff',
     accentDim: 'rgba(255,255,255,0.05)',
     github: '',
+    group: 'fintech',
+    featured: true,
+    link: '',
     icon: '⚡',
   },
   {
@@ -156,6 +159,9 @@ export const projects = [
     accent: '#ffffff',
     accentDim: 'rgba(255,255,255,0.05)',
     github: '',
+    group: 'fintech',
+    featured: false,
+    link: '',
     icon: '📈',
   },
   {
@@ -172,6 +178,9 @@ export const projects = [
     accent: '#ffffff',
     accentDim: 'rgba(255,255,255,0.05)',
     github: '',
+    group: 'infra',
+    featured: true,
+    link: '',
     icon: '☁️',
   },
   {
@@ -188,6 +197,9 @@ export const projects = [
     accent: '#ffffff',
     accentDim: 'rgba(255,255,255,0.05)',
     github: '',
+    group: 'fintech',
+    featured: false,
+    link: '',
     icon: '📊',
   },
   {
@@ -204,6 +216,9 @@ export const projects = [
     accent: '#ffffff',
     accentDim: 'rgba(255,255,255,0.05)',
     github: 'https://github.com/swapnilshah10/MillaBakes',
+    group: 'web',
+    featured: false,
+    link: '',
     icon: '🧁',
   },
   {
@@ -220,6 +235,9 @@ export const projects = [
     accent: '#ffffff',
     accentDim: 'rgba(255,255,255,0.05)',
     github: '',
+    group: 'web',
+    featured: false,
+    link: '',
     icon: '🔗',
   },
   {
@@ -236,7 +254,124 @@ export const projects = [
     accent: '#ffffff',
     accentDim: 'rgba(255,255,255,0.05)',
     github: '',
+    group: 'research',
+    featured: true,
+    link: '',
     icon: '📉',
+  },
+  {
+    title: 'Atom Reaction — Realtime Multiplayer Game',
+    description: 'A chain-reaction strategy game for up to 10 players, shipped as an installable PWA with live rooms, spectators and chat, accounts, daily puzzles and a leaderboard — built, deployed and operated solo.',
+    tech: ['Python', 'FastAPI', 'WebSockets', 'React', 'Vite', 'PostgreSQL', 'Docker', 'PWA'],
+    highlights: [
+      'Authoritative-server WebSocket protocol: lobby, rematch, spectators via /watch/ROOM links, rate-limited room chat with emoji reactions.',
+      'On-demand Postgres: a systemd socket proxy wakes the database on first connection and stops it after 3 idle minutes — 0 MB resident when nobody is playing.',
+      'Installable PWA with a service-worker that never touches API or socket traffic, plus 7 languages through an English-keyed t() helper enforced by a CI check.',
+      'Hardened container (unprivileged, read-only), Google login, GA4 + AdSense, SEO pages, and ~40 reversible deploys each with a tarball backup and changelog entry.'
+    ],
+    category: 'Games · Realtime · Full-Stack',
+    group: 'web',
+    featured: true,
+    link: 'https://atomreaction.silentkillerop.me',
+    accent: '#ffffff',
+    accentDim: 'rgba(255,255,255,0.05)',
+    github: 'https://github.com/swapnilshah10/atomReaction',
+    icon: '⚛️',
+  },
+  {
+    title: 'Crash-Resumable Order Management System',
+    description: 'A strategy-agnostic OMS that routes orders through a Kotak Neo trading desk, with a journaled state machine so a crash or restart never loses or duplicates an order.',
+    tech: ['Python', 'Flask', 'SQLite (WAL)', 'systemd', 'Unix sockets', 'Kotak Neo API'],
+    highlights: [
+      'Tickets → legs → attempts modelled as a state machine in a WAL journal, with a unique index on broker order ids to make placement idempotent.',
+      'Orders carry a tag; fills are matched in the broker order book and booked to the algo that sent them, with late fills adopted instead of dropped.',
+      'Reconciler heals order-level state and alerts if the order book is unreachable for 60 s; every guard and halt is an auditable event.',
+      'Deliberately simplified after a production incident: removed position-based reconciliation in favour of tag + order-book truth.'
+    ],
+    category: 'Fintech · Distributed Systems · Reliability',
+    group: 'fintech',
+    featured: true,
+    link: '',
+    accent: '#ffffff',
+    accentDim: 'rgba(255,255,255,0.05)',
+    github: '',
+    icon: '🧾',
+  },
+  {
+    title: 'Shared Market-Data Feed & Rust Quote Store',
+    description: 'One broker websocket fanned out to every consumer over a Unix socket hub, recording every instrument to a 1-second Parquet store — then ported from Python to Rust with byte-level parity.',
+    tech: ['Rust', 'Python', 'Parquet', 'AF_UNIX SEQPACKET', 'DuckDB', 'Dhan API'],
+    highlights: [
+      'Ref-counted subscriptions: an instrument is only unsubscribed when its last consumer leaves (30 s grace) — one dropped client cannot starve another.',
+      '1-second order-book and trade-flow recorders write zstd Parquet partitions per day, feeding backtests with tick-faithful data.',
+      'Rust port verified against production: 40k parser cases, 211,501 second-rows and hub frames identical; 9 reconnect scenarios pass.',
+      'Profiled and fixed an O(n) hot path — 5,890 ns → 44 ns per packet — cutting a synthetic 10k ticks/s load from 80% to 17.5% of a core.'
+    ],
+    category: 'Systems · Rust · Market Data',
+    group: 'infra',
+    featured: true,
+    link: '',
+    accent: '#ffffff',
+    accentDim: 'rgba(255,255,255,0.05)',
+    github: '',
+    icon: '🦀',
+  },
+  {
+    title: 'JAlgos — Registry-Driven Strategy Runner',
+    description: 'A live and paper execution framework where one strategy registry is the single source of truth: the same definitions drive the backtester, the paper runner and the live book.',
+    tech: ['Python', 'Pandas', 'DuckDB', 'systemd', 'Telegram Bot'],
+    highlights: [
+      'The backtest, built off the registry alone, reproduces the live book exactly — no parallel copies of strategy logic to drift apart.',
+      'Live bars are widened with exchange 1-minute high/low so sampled quotes cannot miss intrabar moves that the backtest would see.',
+      'Staged rollouts, margin-priority planning and daily EOD reports; a live-vs-backtest gap monitor investigates every divergence.',
+      'Runs unattended on a cloud VM with systemd timers, a shared feed hub and Telegram alerting.'
+    ],
+    category: 'Quant Infrastructure · Python · Execution',
+    group: 'research',
+    featured: false,
+    link: '',
+    accent: '#ffffff',
+    accentDim: 'rgba(255,255,255,0.05)',
+    github: '',
+    icon: '🧭',
+  },
+  {
+    title: 'Strategy Atlas — Research Hygiene at Scale',
+    description: 'A cross-idea study of 238 trading ideas (184k trades) built to answer one question honestly: do indicator filters transfer, or are they curve-fitting?',
+    tech: ['Python', 'Pandas', 'DuckDB', 'Statistics', 'HTML reports'],
+    highlights: [
+      'Mined 718 condition rules over 20 entry-time features, with a train / holdout / forward split to separate selection from evidence.',
+      'Built a null test: per-idea tuning produced 9 survivors versus 12 for random filters and 17 for no filter — tuning was worse than doing nothing.',
+      'Showed structure beats timing: expiry-day and premium-selling ideas survived far more often than option-buying or short-hold ideas.',
+      'Report pipeline (build → mine → per-idea → null test → export) is fully reproducible.'
+    ],
+    category: 'Data Science · Backtesting · Statistics',
+    group: 'research',
+    featured: false,
+    link: '',
+    accent: '#ffffff',
+    accentDim: 'rgba(255,255,255,0.05)',
+    github: '',
+    icon: '🔬',
+  },
+  {
+    title: 'Self-Hosted Agent Memory (Obsidian + CLI)',
+    description: 'A shared knowledge vault running on my own VM, exposed over Tailscale with a REST API, so every AI agent and machine I use reads and writes the same long-term memory.',
+    tech: ['Obsidian', 'REST API', 'Tailscale', 'Bash', 'Markdown', 'Docker'],
+    highlights: [
+      'Portable skill plus an obsmem CLI (ls / cat / put / search) that any agent can drop in; secrets live outside the skill.',
+      'Every project change writes a dated changelog entry to the vault, giving a durable audit trail across tools and machines.',
+      'Hub-and-spoke note index keeps the always-loaded memory tiny while hundreds of notes stay searchable.',
+      'Crash-looping container diagnosed and fixed, with the root cause recorded as a runbook note.'
+    ],
+    category: 'Developer Tooling · Knowledge Systems · Self-Hosted',
+    group: 'infra',
+    featured: false,
+    link: '',
+    accent: '#ffffff',
+    accentDim: 'rgba(255,255,255,0.05)',
+    github: '',
+    icon: '🗂️',
   },
 ];
 
@@ -277,7 +412,15 @@ export const terminalLines = [
   { type: 'cmd', text: 'cat impact.json' },
   { type: 'out', text: '{\n  "users_served": "500K+ daily",\n  "latency_win": "800ms → 60ms (-92%)",\n  "api": "Trading API Suite",\n  "services_built": "15+"\n}' },
   { type: 'cmd', text: 'ls ./tech-stack/' },
-  { type: 'out', text: 'java  spring-boot  redis  mysql  docker  gcp  kafka  grafana  nginx' },
+  { type: 'out', text: 'java  go  rust  spring-boot  redis  postgres  docker  gcp  kafka  grafana' },
   { type: 'cmd', text: './run --show-achievements' },
   { type: 'out', text: '✓ 92% API latency reduction\n✓ Engineered Trading API Suite\n✓ 80% smaller API payloads\n✓ Redis + Bucket4j rate limiting\n✓ OAuth2 developer portal\n✓ Full observability stack on GCP' },
+];
+
+export const faqs = [
+  { q: 'Who is Swapnil Shah?', a: 'Swapnil Shah is a Backend Developer based in Mumbai, India, working at JM Financial on the BlinkX trading platform. He builds Spring Boot microservices and high-throughput APIs serving 500K+ daily active users.' },
+  { q: 'What does Swapnil Shah work on at JM Financial?', a: 'Trading APIs, a developer-portal OAuth flow, Redis and Bucket4j rate limiting, and performance work that cut the app-init API from 800 ms to 60-70 ms. He also owns the BondsKart product.' },
+  { q: 'Which technologies does Swapnil Shah use?', a: 'Java, Spring Boot, Kafka, Redis, MySQL and PostgreSQL professionally; Go, Rust, Python and TypeScript in side projects; Docker, GCP, Grafana, Prometheus and Loki for delivery and observability.' },
+  { q: 'What side projects has Swapnil Shah built?', a: 'Atom Reaction (a realtime multiplayer game), a crash-resumable order management system, a shared market-data feed with a Rust quote store, a strategy research lab, and a self-hosted homelab behind Cloudflare Tunnel.' },
+  { q: 'Is Swapnil Shah open to new roles?', a: 'Yes. He is looking for backend and fintech engineering roles. Email shah.swapnil@proton.me or connect on LinkedIn; the résumé PDF is on this page.' },
 ];

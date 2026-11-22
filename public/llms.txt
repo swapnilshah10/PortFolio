@@ -1,0 +1,19 @@
+# Swapnil Shah
+
+> Swapnil Shah is a Backend Developer based in Mumbai, India, working at JM Financial (BlinkX trading platform). He builds Spring Boot microservices serving 500K+ daily active users, plus trading infrastructure, realtime systems and games in Java, Go, Rust and Python.
+
+## Profile
+- [Portfolio](https://personal.silentkillerop.me): projects, experience, skills and FAQ
+- [Résumé (PDF)](https://personal.silentkillerop.me/Swapnil_Shah_Backend_Developer_v2.pdf): current résumé
+- [GitHub](https://github.com/swapnilshah10): source code
+- [LinkedIn](https://linkedin.com/in/Swapnil-Shah9671): professional profile
+
+## Projects
+- [Atom Reaction](https://atomreaction.silentkillerop.me): realtime multiplayer chain-reaction game (FastAPI, WebSockets, React, Postgres)
+- [Atom Reaction source](https://github.com/swapnilshah10/atomReaction): game repository
+- [SilentKillerOp](https://silentkillerop.me): URL shortener and media hub
+
+## Highlights
+- Cut the app-init API from 800 ms to 60-70 ms (-92%) for 500K+ daily users.
+- Built 15+ Spring Boot microservices with Redis, Kafka, Grafana and Prometheus on GCP.
+- Built a crash-resumable order management system, a shared market-data feed hub and a Rust quote store.

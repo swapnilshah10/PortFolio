@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, JetBrains_Mono } from 'next/font/google';
+import { faqs } from '@/lib/data';
+import Providers from '@/components/Providers';
 import './globals.css';
 
 const inter = Inter({
@@ -10,15 +12,24 @@ const inter = Inter({
 
 const BASE_URL = 'https://personal.silentkillerop.me';
 
+const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' });
+
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'Swapnil Shah — Backend Developer | Spring Boot & Microservices',
+    default: 'Swapnil Shah — Backend Developer in Mumbai | Java, Go, Rust, Spring Boot',
     template: '%s | Swapnil Shah',
   },
   description:
-    'Backend Developer with 1.5+ years at JM Financial (BlinkX trading platform) building Spring Boot microservices serving 500K+ daily users. Expert in Java, Redis, Docker, GCP, and high-throughput system design.',
+    'Swapnil Shah is a Backend Developer in Mumbai at JM Financial (BlinkX), building Spring Boot microservices for 500K+ daily users. Portfolio, projects and résumé: Java, Go, Rust, Redis, Kafka, GCP, trading infrastructure.',
   keywords: [
+    'Swapnil Shah Mumbai',
+    'Swapnil Shah backend engineer',
+    'Swapnil Shah GitHub',
+    'Swapnil Shah LinkedIn',
+    'Swapnil Shah Atom Reaction',
+    'Rust Developer India',
+    'Go Developer Mumbai',
     'Swapnil Shah',
     'Swapnil Shah Portfolio',
     'Swapnil Shah Resume',
@@ -63,7 +74,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: BASE_URL,
     siteName: 'Swapnil Shah',
-    title: 'Swapnil Shah — Backend Developer | Spring Boot & Microservices',
+    title: 'Swapnil Shah — Backend Developer in Mumbai | Java, Go, Rust, Spring Boot',
     description:
       'Backend Developer building scalable Spring Boot microservices serving 500K+ daily users at JM Financial. Java · Redis · Docker · GCP · Kafka.',
     images: [
@@ -77,7 +88,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Swapnil Shah — Backend Developer | Spring Boot & Microservices',
+    title: 'Swapnil Shah — Backend Developer in Mumbai | Java, Go, Rust, Spring Boot',
     description:
       'Building high-throughput APIs serving 500K+ users. Java · Spring Boot · Redis · Docker · GCP.',
     images: ['/og-image.png'],
@@ -95,66 +106,86 @@ export const metadata: Metadata = {
     },
   },
   alternates: { canonical: BASE_URL },
+  category: 'technology',
+  other: { 'profile:first_name': 'Swapnil', 'profile:last_name': 'Shah' },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#00d4aa',
+  themeColor: '#02040a',
   width: 'device-width',
   initialScale: 1,
 };
 
+const personId = `${BASE_URL}/#person`;
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Swapnil Shah',
-  url: BASE_URL,
-  image: `${BASE_URL}/avatar.png`,
-  description:
-    'Backend Developer with 1.5+ years at JM Financial (BlinkX trading platform) building Spring Boot microservices serving 500K+ daily users.',
-  sameAs: [
-    'https://github.com/swapnilshah10',
-    'https://linkedin.com/in/Swapnil-Shah9671',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': personId,
+      name: 'Swapnil Shah',
+      givenName: 'Swapnil',
+      familyName: 'Shah',
+      alternateName: ['Swapnil Shah Backend Developer', 'swapnilshah10', 'SilentKillerOp'],
+      url: BASE_URL,
+      mainEntityOfPage: { '@id': `${BASE_URL}/#profile` },
+      image: `${BASE_URL}/avatar.png`,
+      description:
+        'Swapnil Shah is a Backend Developer in Mumbai with 2+ years at JM Financial (BlinkX), building Spring Boot microservices serving 500K+ daily users, plus trading infrastructure and realtime systems in Java, Go, Rust and Python.',
+      sameAs: [
+        'https://github.com/swapnilshah10',
+        'https://linkedin.com/in/Swapnil-Shah9671',
+        'https://atomreaction.silentkillerop.me',
+        'https://silentkillerop.me',
+      ],
+      jobTitle: 'Backend Developer',
+      worksFor: { '@type': 'Organization', name: 'JM Financial Ltd' },
+      alumniOf: { '@type': 'CollegeOrUniversity', name: 'Dwarkadas J. Sanghvi College of Engineering, Mumbai University' },
+      knowsAbout: [
+        'Java', 'Spring Boot', 'Microservices', 'Go', 'Rust', 'Python', 'Redis', 'Kafka', 'PostgreSQL', 'MySQL',
+        'Docker', 'GCP', 'REST APIs', 'System Design', 'DevOps', 'Observability', 'Algorithmic Trading', 'Next.js',
+      ],
+      address: { '@type': 'PostalAddress', addressLocality: 'Mumbai', addressRegion: 'Maharashtra', addressCountry: 'IN' },
+      email: 'shah.swapnil@proton.me',
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${BASE_URL}/#website`,
+      url: BASE_URL,
+      name: 'Swapnil Shah',
+      alternateName: 'Swapnil Shah — Portfolio',
+      inLanguage: 'en',
+      publisher: { '@id': personId },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${BASE_URL}/#faq`,
+      mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+    },
+    {
+      '@type': 'ProfilePage',
+      '@id': `${BASE_URL}/#profile`,
+      url: BASE_URL,
+      name: 'Swapnil Shah — Backend Developer in Mumbai',
+      isPartOf: { '@id': `${BASE_URL}/#website` },
+      about: { '@id': personId },
+      mainEntity: { '@id': personId },
+      dateModified: new Date().toISOString().slice(0, 10),
+    },
   ],
-  jobTitle: 'Backend Developer',
-  worksFor: {
-    '@type': 'Organization',
-    name: 'JM Financial Ltd',
-  },
-  alumniOf: {
-    '@type': 'CollegeOrUniversity',
-    name: 'Dwarkadas J. Sanghvi College of Engineering, Mumbai University',
-  },
-  knowsAbout: [
-    'Java', 'Spring Boot', 'Microservices', 'Redis', 'Docker',
-    'GCP', 'Kafka', 'REST APIs', 'System Design', 'DevOps',
-    'Python', 'MySQL', 'Next.js', 'Algorithmic Trading', 'OpenResty',
-  ],
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Mumbai',
-    addressCountry: 'IN',
-  },
-  email: 'shah.swapnil@proton.me',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body>
-        <div className="noise-overlay" aria-hidden="true" />
-        {children}
+      <body className="noise">
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

@@ -1,320 +1,155 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { ArrowDown, Github, Linkedin, Mail, Download } from 'lucide-react';
-import { heroStats, terminalLines, personalInfo } from '@/lib/data';
-import DoodleBackground from './DoodleBackground';
+import { motion, useInView, useMotionValue, useScroll, useTransform, animate, useReducedMotion } from 'motion/react';
+import { ArrowDownRight, Github, Linkedin, Mail, MapPin } from 'lucide-react';
+import { heroStats, personalInfo, terminalLines } from '@/lib/data';
+import { scrollToId } from './Providers';
 
-/* ── Terminal Animation ───────────────────────────────────────── */
-function Terminal() {
-  const [lines, setLines] = useState<{ type: string; text: string }[]>([]);
-  const [typing, setTyping] = useState('');
-  const [phase, setPhase] = useState(0); 
-  const [charIndex, setCharIndex] = useState(0);
-  const bodyRef = useRef<HTMLDivElement>(null);
+const ROLES = ['high-throughput APIs', 'trading infrastructure', 'realtime systems', 'observable platforms'];
 
-  useEffect(() => {
-    if (phase >= terminalLines.length) return;
-    const current = terminalLines[phase];
-
-    if (charIndex < current.text.length) {
-      const delay = current.type === 'cmd' ? 45 : 10;
-      const t = setTimeout(() => {
-        setTyping(current.text.slice(0, charIndex + 1));
-        setCharIndex(c => c + 1);
-      }, delay);
-      return () => clearTimeout(t);
-    } else {
-      const pause = current.type === 'cmd' ? 300 : 500;
-      const t = setTimeout(() => {
-        setLines(l => [...l, { type: current.type, text: current.text }]);
-        setTyping('');
-        setCharIndex(0);
-        setPhase(p => p + 1);
-      }, pause);
-      return () => clearTimeout(t);
-    }
-  }, [phase, charIndex]);
-
-  useEffect(() => {
-    if (bodyRef.current) {
-      bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
-    }
-  }, [lines, typing]);
-
+function Words({ text, delay = 0, className = '' }: { text: string; delay?: number; className?: string }) {
   return (
-    <div className="terminal w-full max-w-lg mx-auto animate-float">
-      <div className="terminal-bar">
-        <div className="terminal-dot" style={{ background: '#333' }} />
-        <div className="terminal-dot" style={{ background: '#333' }} />
-        <div className="terminal-dot" style={{ background: '#333' }} />
-        <span className="ml-3 text-white/40 text-xs font-mono select-none">
-          swapnil@jm-financial:~
+    <span className={className}>
+      <span className="sr-only">{text}</span>
+      {text.split(' ').map((w, i) => (
+        <span key={i} aria-hidden className="inline-block overflow-hidden align-bottom pb-[0.12em] -mb-[0.12em]">
+          <motion.span className="inline-block" initial={{ y: '110%' }} animate={{ y: 0 }}
+            transition={{ duration: 0.7, delay: delay + i * 0.05, ease: [0.16, 1, 0.3, 1] }}>
+            {w}&nbsp;
+          </motion.span>
         </span>
-      </div>
-      <div ref={bodyRef} className="terminal-body overflow-y-auto" style={{ maxHeight: '300px' }}>
-        {lines.map((line, i) => (
-          <div key={i}>
-            {line.type === 'cmd' && (
-              <div>
-                <span className="terminal-prompt">$ </span>
-                <span className="terminal-cmd">{line.text}</span>
-              </div>
-            )}
-            {line.type === 'out' && (
-              <div className="terminal-out pl-4 mb-1">{line.text}</div>
-            )}
-          </div>
-        ))}
-        {typing && (
-          <div>
-            {terminalLines[phase]?.type === 'cmd' && (
-              <div>
-                <span className="terminal-prompt">$ </span>
-                <span className="terminal-cmd">{typing}</span>
-                <span className="cursor-blink" />
-              </div>
-            )}
-            {terminalLines[phase]?.type === 'out' && (
-              <div className="terminal-out pl-4">{typing}<span className="cursor-blink" /></div>
-            )}
-          </div>
-        )}
-        {phase >= terminalLines.length && (
-          <div>
-            <span className="terminal-prompt">$ </span>
-            <span className="cursor-blink" />
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-/* ── Counter Hook ─────────────────────────────────────────────── */
-function useCountUp(target: number, started: boolean, duration = 1800) {
-  const [value, setValue] = useState(0);
-  useEffect(() => {
-    if (!started) return;
-    const start = performance.now();
-    const tick = (now: number) => {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(Math.round(eased * target));
-      if (progress < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }, [target, started, duration]);
-  return value;
-}
-
-/* ── Typewriter Role ─────────────────────────────────────────── */
-const ROLES = [
-  'Backend Developer',
-  'Systems Architect',
-  'Trading API Engineer',
-  'Microservices Expert',
-];
-
-function TypewriterRole() {
-  const [roleIdx, setRoleIdx]   = useState(0);
-  const [text, setText]         = useState('');
-  const [deleting, setDeleting] = useState(false);
-
-  useEffect(() => {
-    const role = ROLES[roleIdx];
-    let timeout: ReturnType<typeof setTimeout>;
-
-    if (!deleting && text.length < role.length) {
-      timeout = setTimeout(() => setText(role.slice(0, text.length + 1)), 60);
-    } else if (!deleting && text.length === role.length) {
-      timeout = setTimeout(() => setDeleting(true), 2000);
-    } else if (deleting && text.length > 0) {
-      timeout = setTimeout(() => setText(role.slice(0, text.length - 1)), 30);
-    } else if (deleting && text.length === 0) {
-      setDeleting(false);
-      setRoleIdx(i => (i + 1) % ROLES.length);
-    }
-    return () => clearTimeout(timeout);
-  }, [text, deleting, roleIdx]);
-
-  return (
-    <span className="font-mono text-xl sm:text-2xl font-medium" style={{ color: 'var(--text-1)' }}>
-      {text}
-      <span className="cursor-blink" />
+      ))}
     </span>
   );
 }
 
-/* ── Stat Card ───────────────────────────────────────────────── */
-function StatCard({ stat, started }: { stat: typeof heroStats[0]; started: boolean }) {
-  const value = useCountUp(stat.value, started);
+function Rotator() {
+  const [i, setI] = useState(0);
+  const reduce = useReducedMotion();
+  useEffect(() => { if (reduce) return; const t = setInterval(() => setI(v => (v + 1) % ROLES.length), 2600); return () => clearInterval(t); }, [reduce]);
   return (
-    <div className="stat-card">
-      <div className="text-2xl font-bold font-sans" style={{ color: 'var(--text-1)' }}>
-        {value}{stat.suffix}
+    <span className="relative inline-flex min-h-[2.4em] sm:min-h-0 sm:h-[1.3em] max-w-full sm:overflow-hidden align-top sm:align-bottom">
+      <motion.span key={i} initial={{ y: '100%', opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="gradient-text sm:whitespace-nowrap">{ROLES[i]}</motion.span>
+    </span>
+  );
+}
+
+function Counter({ to, suffix }: { to: number; suffix: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
+  const v = useMotionValue(0);
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const c = animate(v, to, { duration: 1.8, ease: [0.16, 1, 0.3, 1], onUpdate: x => setN(Math.round(x)) });
+    return () => c.stop();
+  }, [inView, to, v]);
+  return <span ref={ref} className="tabular-nums">{n}{suffix}</span>;
+}
+
+function Terminal() {
+  const [shown, setShown] = useState(0);
+  const [typed, setTyped] = useState('');
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    if (reduce) { setShown(terminalLines.length); return; }
+    if (shown >= terminalLines.length) return;
+    const line = terminalLines[shown];
+    if (line.type === 'out') { const t = setTimeout(() => { setShown(s => s + 1); setTyped(''); }, 450); return () => clearTimeout(t); }
+    if (typed.length < line.text.length) { const t = setTimeout(() => setTyped(line.text.slice(0, typed.length + 1)), 55); return () => clearTimeout(t); }
+    const t = setTimeout(() => { setShown(s => s + 1); setTyped(''); }, 350);
+    return () => clearTimeout(t);
+  }, [shown, typed, reduce]);
+
+  return (
+    <div className="spot !rounded-2xl font-mono text-[13px] leading-relaxed shadow-2xl shadow-emerald-500/5">
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-white/[0.07]">
+        <i className="size-2.5 rounded-full bg-red-400/80" /><i className="size-2.5 rounded-full bg-amber-300/80" /><i className="size-2.5 rounded-full bg-emerald-400/80" />
+        <span className="ml-3 text-xs text-slate-400">swapnil@prod ~ zsh</span>
       </div>
-      <div className="text-xs mt-1 font-medium text-[var(--text-2)] uppercase tracking-wider">{stat.label}</div>
+      <div className="p-5 min-h-[300px] space-y-2" aria-live="off">
+        {terminalLines.slice(0, shown).map((l, i) => (
+          <div key={i} className={l.type === 'cmd' ? 'text-slate-200' : 'text-emerald-300/90 whitespace-pre-wrap pl-4'}>
+            {l.type === 'cmd' && <span className="text-emerald-400">❯ </span>}{l.text}
+          </div>
+        ))}
+        {shown < terminalLines.length && terminalLines[shown].type === 'cmd' && (
+          <div className="text-slate-200 caret"><span className="text-emerald-400">❯ </span>{typed}</div>
+        )}
+        {shown >= terminalLines.length && <div className="caret text-emerald-400">❯ </div>}
+      </div>
     </div>
   );
 }
 
-/* ── Hero ────────────────────────────────────────────────────── */
 export default function Hero() {
-  const [statsStarted, setStatsStarted] = useState(false);
-  const statsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setStatsStarted(true); obs.disconnect(); } },
-      { threshold: 0.3 }
-    );
-    if (statsRef.current) obs.observe(statsRef.current);
-    return () => obs.disconnect();
-  }, []);
-
-  const scrollDown = () => {
-    document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
+  const y = useTransform(scrollYProgress, [0, 1], [0, 140]);
+  const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden"
-      style={{ background: 'var(--bg-0)' }}
-    >
-      {/* Grid background */}
-      <div className="absolute inset-0 grid-bg opacity-40" />
-
-      {/* CSS Doodle Background */}
-      <DoodleBackground />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-24 pb-16 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-
-          {/* LEFT: Text content */}
-          <div style={{ animation: 'fadeUp 0.8s ease-out both' }}>
-            <div className="section-label mb-6" style={{ animationDelay: '0.1s' }}>
-              System Engineering & Architecture
-            </div>
-
-            <h1 className="hero-name mb-4">
-              <span className="text-gradient">Swapnil Shah</span>
-            </h1>
-
-            <div className="mb-6 h-8">
-              <TypewriterRole />
-            </div>
-
-            <p className="text-[0.95rem] leading-relaxed mb-8 max-w-lg"
-              style={{ color: 'var(--text-2)', animation: 'fadeUp 0.8s 0.3s ease-out both' }}>
-              Architecting high-throughput microservices and institutional-grade Trading APIs at{' '}
-              <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>JM Financial</span>
-              {' '}— powering execution and routing for{' '}
-              <span style={{ color: 'var(--text-1)', fontWeight: 600 }}>500K+</span>
-              {' '}daily active users on the BlinkX platform.
-            </p>
-
-            {/* CTA buttons */}
-            <div className="flex flex-wrap gap-4 mb-10"
-              style={{ animation: 'fadeUp 0.8s 0.4s ease-out both' }}>
-              <button
-                onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
-                className="btn-primary"
-              >
-                View Engineering Work
-              </button>
-              <a
-                href="/Swapnil_Shah_Backend_Developer_v2.pdf"
-                download
-                className="btn-outline"
-              >
-                <Download size={16} />
-                Resume
-              </a>
-            </div>
-
-            {/* Social links */}
-            <div className="flex items-center gap-4"
-              style={{ animation: 'fadeUp 0.8s 0.5s ease-out both' }}>
-              {[
-                { icon: Github, href: personalInfo.github, label: 'GitHub' },
-                { icon: Linkedin, href: personalInfo.linkedin, label: 'LinkedIn' },
-                { icon: Mail, href: `mailto:${personalInfo.email}`, label: 'Email' },
-              ].map(({ icon: Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="w-10 h-10 rounded-lg border flex items-center justify-center transition-all duration-200 hover:-translate-y-1"
-                  style={{
-                    borderColor: 'var(--border)',
-                    color: 'var(--text-2)',
-                    background: 'var(--bg-1)',
-                  }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLElement).style.borderColor = 'var(--border-hover)';
-                    (e.currentTarget as HTMLElement).style.color = 'var(--text-1)';
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)';
-                    (e.currentTarget as HTMLElement).style.color = 'var(--text-2)';
-                  }}
-                >
-                  <Icon size={18} />
-                </a>
-              ))}
-              <span className="text-sm ml-2 font-medium" style={{ color: 'var(--text-3)' }}>
-                {personalInfo.location}
-              </span>
-            </div>
-          </div>
-
-          {/* RIGHT: Terminal */}
-          <div
-            className="w-full"
-            style={{ animation: 'fadeRight 0.9s 0.3s ease-out both' }}
-          >
-            <Terminal />
-          </div>
-        </div>
-
-        {/* Stats row */}
-        <div
-          ref={statsRef}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16"
-          style={{ animation: 'fadeUp 0.8s 0.6s ease-out both' }}
-        >
-          {heroStats.map(stat => (
-            <StatCard key={stat.label} stat={stat} started={statsStarted} />
-          ))}
-        </div>
+    <section ref={ref} className="relative min-h-screen flex items-center overflow-hidden pt-28 pb-16">
+      <div aria-hidden className="absolute inset-0 grid-bg" />
+      <div aria-hidden className="aurora absolute inset-0">
+        <i className="w-[46vw] h-[46vw] -top-[12vw] left-[8vw] bg-[radial-gradient(closest-side,rgba(16,185,129,.5),transparent)]" />
+        <i className="w-[38vw] h-[38vw] top-[8vw] right-[2vw] bg-[radial-gradient(closest-side,rgba(14,165,233,.42),transparent)] [animation-delay:-6s]" />
+        <i className="w-[30vw] h-[30vw] top-[30vw] left-[40vw] bg-[radial-gradient(closest-side,rgba(124,58,237,.38),transparent)] [animation-delay:-11s]" />
       </div>
 
-      {/* Scroll indicator */}
-      <button
-        onClick={scrollDown}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 group"
-        aria-label="Scroll down"
-        style={{ animation: 'fadeIn 1s 1.2s ease-out both' }}
-      >
-        <span className="text-[0.65rem] font-bold tracking-[0.2em] uppercase"
-          style={{ color: 'var(--text-3)' }}>EXPLORE</span>
-        <div
-          className="w-5 h-8 rounded-full border flex items-start justify-center p-1 transition-colors"
-          style={{ borderColor: 'var(--border)' }}
-        >
-          <div
-            className="w-1 h-2 rounded-full"
-            style={{
-              background: 'var(--text-2)',
-              animation: 'float 2s ease-in-out infinite',
-            }}
-          />
+      <motion.div style={{ y, opacity: fade }} className="relative mx-auto w-full max-w-6xl px-6 grid lg:grid-cols-[1.15fr_1fr] gap-14 items-center">
+        <div className="min-w-0">
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs text-slate-300 mb-8">
+            <span className="relative flex size-2"><span className="absolute inline-flex size-full rounded-full bg-emerald-400 opacity-75 animate-ping" /><span className="relative inline-flex size-2 rounded-full bg-emerald-400" /></span>
+            Open to backend &amp; fintech roles
+            <span className="text-slate-400 flex items-center gap-1"><MapPin size={11} />Mumbai</span>
+          </motion.div>
+
+          <h1 className="text-[2.4rem] sm:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.02]">
+            <Words text="Swapnil Shah" />
+            <br />
+            <Words text="builds" delay={0.25} className="text-slate-400" />{' '}
+            <Rotator />
+          </h1>
+
+          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.5 }}
+            className="mt-7 max-w-xl text-lg text-slate-400 leading-relaxed">
+            Backend engineer at <span className="text-slate-200">JM Financial</span> — Spring Boot services for{' '}
+            <span className="text-slate-200">500K+ daily users</span>. After hours: market-data feeds in Rust, a crash-resumable OMS, and games people actually play.
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.5 }}
+            className="mt-9 flex flex-wrap items-center gap-3">
+            <button className="btn-primary" onClick={() => scrollToId('projects')}>View projects <ArrowDownRight size={16} /></button>
+            <button className="btn-ghost" onClick={() => scrollToId('contact')}>Get in touch</button>
+            <div className="flex items-center gap-1 ml-1">
+              {[{ I: Github, h: personalInfo.github, l: 'GitHub' }, { I: Linkedin, h: personalInfo.linkedin, l: 'LinkedIn' }, { I: Mail, h: `mailto:${personalInfo.email}`, l: 'Email' }].map(({ I, h, l }) => (
+                <a key={l} href={h} aria-label={l} target={h.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
+                  className="p-2.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"><I size={18} /></a>
+              ))}
+            </div>
+          </motion.div>
         </div>
-      </button>
+
+        <motion.div initial={{ opacity: 0, y: 40, rotateX: 8 }} animate={{ opacity: 1, y: 0, rotateX: 0 }} transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          style={{ perspective: 1200 }} className="hidden md:block">
+          <Terminal />
+        </motion.div>
+
+        <motion.dl initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.6 }}
+          className="lg:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-px min-w-0 rounded-2xl overflow-hidden border border-white/10 bg-white/10">
+          {heroStats.map(s => (
+            <div key={s.label} className="bg-[#04070f] px-6 py-6">
+              <dt className="text-xs text-slate-400 uppercase tracking-wider order-2">{s.label}</dt>
+              <dd className="mt-1 text-3xl md:text-4xl font-semibold gradient-text"><Counter to={s.value} suffix={s.suffix} /></dd>
+            </div>
+          ))}
+        </motion.dl>
+      </motion.div>
     </section>
   );
 }

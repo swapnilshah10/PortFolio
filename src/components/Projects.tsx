@@ -1,131 +1,107 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { Github, ChevronRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
+import { ArrowUpRight, Github, X } from 'lucide-react';
 import { projects } from '@/lib/data';
+import { Reveal, SectionHead, Spot } from './ui';
 
-function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
+type P = (typeof projects)[number];
+
+const FILTERS = [
+  { id: 'all', label: 'All' },
+  { id: 'fintech', label: 'Fintech' },
+  { id: 'infra', label: 'Systems & Infra' },
+  { id: 'research', label: 'Research' },
+  { id: 'web', label: 'Web & Games' },
+];
+
+function Card({ p, onOpen }: { p: P; onOpen: () => void }) {
   return (
-    <div
-      className="reveal card-clean flex flex-col h-full overflow-hidden"
-      style={{ transitionDelay: `${index * 0.1}s` }}
-    >
-      <div className="p-7 flex flex-col flex-1">
-        {/* Header */}
-        <div className="flex items-start justify-between gap-3 mb-4">
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">{project.icon}</span>
-            <div>
-              <h3 className="text-lg font-semibold" style={{ color: 'var(--text-1)' }}>
-                {project.title}
-              </h3>
-              <span
-                className="text-xs font-medium"
-                style={{ color: 'var(--text-3)' }}
-              >
-                {project.category}
-              </span>
-            </div>
+    <motion.div layout layoutId={`card-${p.title}`} initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.96 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}  >
+      <Spot className="h-full">
+        <button onClick={onOpen} className="w-full h-full text-left p-6 md:p-7 flex flex-col cursor-pointer">
+          <div className="flex items-start justify-between gap-4 mb-5">
+            <span className="text-3xl" aria-hidden>{p.icon}</span>
+            <ArrowUpRight size={18} className="text-slate-400 group-hover:text-white" />
           </div>
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="View on GitHub"
-              className="p-2 rounded-lg transition-all duration-200 flex-shrink-0 hover:bg-white/5"
-              style={{ color: 'var(--text-2)', border: '1px solid var(--border)' }}
-            >
-              <Github size={18} />
-            </a>
-          )}
-        </div>
+          <p className="font-mono text-[11px] uppercase tracking-wider text-emerald-400/90 mb-2">{p.category}</p>
+          <h3 className="text-xl font-semibold tracking-tight mb-2">{p.title}</h3>
+          <p className="text-slate-400 text-[15px] leading-relaxed mb-5">{p.description}</p>
+          <ul className="mt-auto flex flex-wrap gap-1.5">
+            {p.tech.slice(0, 5).map(t => <li key={t} className="chip !text-[11px]">{t}</li>)}
+            {p.tech.length > 5 && <li className="chip !text-[11px]">+{p.tech.length - 5}</li>}
+          </ul>
+        </button>
+      </Spot>
+    </motion.div>
+  );
+}
 
-        {/* Description */}
-        <p className="text-sm leading-relaxed mb-5" style={{ color: 'var(--text-2)' }}>
-          {project.description}
-        </p>
+function Modal({ p, onClose }: { p: P; onClose: () => void }) {
+  useEffect(() => {
+    const k = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    window.addEventListener('keydown', k);
+    const prev = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', k); document.documentElement.style.overflow = prev; };
+  }, [onClose]);
 
-        {/* Highlights */}
-        <ul className="space-y-2 mb-6 flex-1">
-          {project.highlights.map((h, i) => (
-            <li key={i} className="flex gap-2 text-sm" style={{ color: 'var(--text-2)' }}>
-              <ChevronRight
-                size={14}
-                className="flex-shrink-0 mt-0.5"
-                style={{ color: 'var(--text-3)' }}
-              />
-              <span>{h}</span>
+  return (
+    <motion.div className="fixed inset-0 z-[75] grid place-items-center p-4 bg-black/70 backdrop-blur-md" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
+      <motion.div role="dialog" aria-modal="true" aria-label={p.title} layoutId={`card-${p.title}`} onClick={e => e.stopPropagation()}
+        className="relative w-full max-w-2xl max-h-[88vh] overflow-auto rounded-3xl border border-white/10 bg-[#070b14] p-7 md:p-9 shadow-2xl">
+        <button onClick={onClose} aria-label="Close" className="absolute top-5 right-5 p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 cursor-pointer"><X size={18} /></button>
+        <span className="text-4xl" aria-hidden>{p.icon}</span>
+        <p className="font-mono text-[11px] uppercase tracking-wider text-emerald-400 mt-4 mb-2">{p.category}</p>
+        <h3 className="text-2xl md:text-3xl font-semibold tracking-tight mb-3">{p.title}</h3>
+        <p className="text-slate-400 leading-relaxed mb-6">{p.description}</p>
+        <ul className="space-y-3 mb-6">
+          {p.highlights.map(h => (
+            <li key={h} className="flex gap-3 text-[15px] text-slate-300 leading-relaxed">
+              <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-emerald-400" />{h}
             </li>
           ))}
         </ul>
-
-        {/* Tech stack */}
-        <div className="flex flex-wrap gap-2 mt-auto">
-          {project.tech.map(t => (
-            <span
-              key={t}
-              className="px-2 py-1 rounded text-xs font-medium"
-              style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid var(--border)',
-                color: 'var(--text-2)',
-              }}
-            >
-              {t}
-            </span>
-          ))}
+        <ul className="flex flex-wrap gap-1.5 mb-7">{p.tech.map(t => <li key={t} className="chip">{t}</li>)}</ul>
+        <div className="flex flex-wrap gap-3">
+          {p.link && <a href={p.link} target="_blank" rel="noopener noreferrer" className="btn-primary">Live site <ArrowUpRight size={15} /></a>}
+          {p.github && <a href={p.github} target="_blank" rel="noopener noreferrer" className="btn-ghost"><Github size={15} /> Source</a>}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
 export default function Projects() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')),
-      { threshold: 0.1, rootMargin: '-50px' }
-    );
-    sectionRef.current?.querySelectorAll('.reveal, .reveal-left')
-      .forEach(el => obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
+  const [f, setF] = useState('all');
+  const [open, setOpen] = useState<P | null>(null);
+  const list = projects.filter(p => f === 'all' || p.group === f);
 
   return (
-    <section id="projects" ref={sectionRef} className="relative py-28 overflow-hidden"
-      style={{ background: 'var(--bg-1)' }}>
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
-        <div className="reveal mb-16">
-          <div className="section-label">Engineering</div>
-          <h2 className="section-heading">Featured Projects</h2>
-          <p className="mt-4 max-w-xl text-sm leading-relaxed"
-            style={{ color: 'var(--text-2)' }}>
-            Showcasing scalable architectures, institutional-grade API integrations, and robust infrastructure systems.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.title} project={project} index={i} />
-          ))}
-        </div>
-
-        {/* GitHub CTA */}
-        <div className="reveal mt-12 text-center">
-          <a
-            href="https://github.com/swapnilshah10"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-outline inline-flex"
-          >
-            <Github size={16} />
-            View GitHub Profile
-          </a>
-        </div>
+    <section id="projects" className="relative py-28 bg-[#04070f]/60 border-y border-white/[0.05]">
+      <div className="mx-auto max-w-6xl px-6">
+        <SectionHead label="projects" title={<>Things I built, <span className="gradient-text">run and maintain</span>.</>} sub="Day-job systems and the side projects that keep me honest. Tap any card for the engineering detail." />
+        <Reveal>
+          <div role="tablist" aria-label="Filter projects" className="flex flex-wrap gap-2 mb-8">
+            {FILTERS.map(x => (
+              <button key={x.id} role="tab" aria-selected={f === x.id} onClick={() => setF(x.id)}
+                className={`relative px-4 py-2 rounded-full text-sm cursor-pointer border transition-colors ${f === x.id ? 'text-[#02040a] border-transparent' : 'text-slate-400 border-white/10 hover:text-white hover:border-white/25'}`}>
+                {f === x.id && <motion.span layoutId="filter-pill" className="absolute inset-0 rounded-full bg-emerald-400" transition={{ type: 'spring', stiffness: 400, damping: 34 }} />}
+                <span className="relative font-medium">{x.label}</span>
+              </button>
+            ))}
+          </div>
+        </Reveal>
+        <LayoutGroup>
+          <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <AnimatePresence mode="popLayout">
+              {list.map(p => <Card key={p.title} p={p} onOpen={() => setOpen(p)} />)}
+            </AnimatePresence>
+          </motion.div>
+          <AnimatePresence>{open && <Modal p={open} onClose={() => setOpen(null)} />}</AnimatePresence>
+        </LayoutGroup>
       </div>
     </section>
   );
