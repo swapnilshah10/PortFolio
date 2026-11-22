@@ -30,9 +30,9 @@ function Rotator() {
   const reduce = useReducedMotion();
   useEffect(() => { if (reduce) return; const t = setInterval(() => setI(v => (v + 1) % ROLES.length), 2600); return () => clearInterval(t); }, [reduce]);
   return (
-    <span className={`relative inline-flex max-w-full ${game ? '' : 'sm:max-w-none'} ${game ? 'min-h-[2.15em] align-top' : 'min-h-[2.4em] sm:min-h-0 sm:h-[1.3em] sm:overflow-hidden align-top sm:align-bottom'}`}>
+    <span className="relative inline-flex max-w-full min-h-[2.15em] align-top">
       <motion.span key={i} initial={{ y: '100%', opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className={`gradient-text ${game ? '' : 'sm:whitespace-nowrap'}`}>{ROLES[i]}</motion.span>
+        className="gradient-text">{ROLES[i]}</motion.span>
     </span>
   );
 }
@@ -111,7 +111,7 @@ export default function Hero() {
             <span className="text-slate-400 flex items-center gap-1"><MapPin size={11} />Mumbai</span>
           </motion.div>
 
-          <h1 className={`${game ? 'text-[2.1rem] sm:text-5xl lg:text-[3.6rem]' : 'text-[2.4rem] sm:text-6xl lg:text-7xl'} font-semibold tracking-tight leading-[1.02]`}>
+          <h1 className={`${game ? 'text-[2.1rem] sm:text-5xl lg:text-[3.6rem]' : 'text-[2.3rem] sm:text-6xl lg:text-[4.2rem]'} font-semibold tracking-tight leading-[1.02]`}>
             <Words text="Swapnil Shah" />
             <br />
             <Words text="builds" delay={0.25} className="text-slate-400" />{' '}
