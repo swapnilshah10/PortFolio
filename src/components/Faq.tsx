@@ -6,7 +6,7 @@ import { Reveal, SectionHead } from './ui';
 
 export default function Faq() {
   return (
-    <section id="faq" className="relative py-28 bg-[#0a0614]/60 border-t border-white/[0.05]">
+    <section id="faq" className="relative py-28 bg-surface-1/60 border-t border-white/[0.05]">
       <div className="mx-auto max-w-3xl px-6">
         <SectionHead label="faq" title={<>Who is <span className="gradient-text">Swapnil Shah</span>?</>} />
         <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Search, CornerDownLeft, Github, Linkedin, Mail, FileText, Hash, Rocket } from 'lucide-react';
+import { Search, CornerDownLeft, Github, Linkedin, Mail, FileText, Hash, Rocket, Gamepad2 } from 'lucide-react';
 import { personalInfo, projects } from '@/lib/data';
 import { scrollToId } from './Providers';
 
@@ -20,6 +20,7 @@ export default function CommandPalette() {
   const items = useMemo<Item[]>(() => [
     ...['about', 'skills', 'experience', 'projects', 'arcade', 'education', 'contact'].map(s => ({ label: `Go to ${s}`, hint: 'Section', icon: Hash, run: go(s) })),
     ...projects.map(p => ({ label: p.title, hint: 'Project', icon: Rocket, run: go('projects') })),
+    { label: 'Toggle game theme', hint: 'Theme', icon: Gamepad2, run: () => window.dispatchEvent(new Event('toggle-theme')) },
     { label: 'Download résumé', hint: 'PDF', icon: FileText, run: open('/Swapnil_Shah_Backend_Developer_v2.pdf') },
     { label: 'GitHub', hint: 'Link', icon: Github, run: open(personalInfo.github) },
     { label: 'LinkedIn', hint: 'Link', icon: Linkedin, run: open(personalInfo.linkedin) },
@@ -48,7 +49,7 @@ export default function CommandPalette() {
         <motion.div className="fixed inset-0 z-[80] flex items-start justify-center pt-[15vh] px-4 bg-black/60 backdrop-blur-sm"
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setOn(false)}>
           <motion.div role="dialog" aria-label="Command palette" aria-modal="true"
-            className="w-full max-w-xl rounded-2xl border border-white/10 bg-[#0d0719]/95 shadow-2xl shadow-lime-500/10 overflow-hidden"
+            className="w-full max-w-xl rounded-2xl border border-white/10 bg-surface-2/95 shadow-2xl shadow-lime-500/10 overflow-hidden"
             initial={{ y: -16, scale: 0.97, opacity: 0 }} animate={{ y: 0, scale: 1, opacity: 1 }} exit={{ y: -10, scale: 0.98, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 380, damping: 32 }} onClick={e => e.stopPropagation()}>
             <div className="flex items-center gap-3 px-4 border-b border-white/10">

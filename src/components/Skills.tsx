@@ -3,6 +3,7 @@
 import { motion } from 'motion/react';
 import { skills, skillLevels } from '@/lib/data';
 import { Reveal, SectionHead, Spot } from './ui';
+import { useGame } from './Providers';
 
 const ALL = skills.flatMap(s => s.items);
 
@@ -18,17 +19,18 @@ function Row({ items, reverse }: { items: string[]; reverse?: boolean }) {
 }
 
 export default function Skills() {
+  const { game } = useGame();
   const half = Math.ceil(ALL.length / 2);
   return (
-    <section id="skills" className="relative py-28 bg-[#0a0614]/60 border-y border-white/[0.05]">
+    <section id="skills" className="relative py-28 bg-surface-1/60 border-y border-white/[0.05]">
       <div className="mx-auto max-w-6xl px-6">
-        <SectionHead label="skill tree" title={<>Attributes &amp; <span className="gradient-text">inventory</span>.</>} sub="Production experience in Java and Python; Go and Rust through side projects that run every trading day." />
+        <SectionHead label={game ? 'skill tree' : 'skills'} title={game ? <>Attributes &amp; <span className="gradient-text">inventory</span>.</> : <>The <span className="gradient-text">toolbox</span>, grouped by what it does.</>} sub="Production experience in Java and Python; Go and Rust through side projects that run every trading day." />
       </div>
       <div className="space-y-3 mb-14" aria-label={`Technologies: ${ALL.join(', ')}`}>
         <Row items={ALL.slice(0, half)} />
         <Row items={ALL.slice(half)} reverse />
       </div>
-      <div className="mx-auto max-w-6xl px-6 mb-14">
+      {game && <div className="mx-auto max-w-6xl px-6 mb-14">
         <Spot className="p-6 md:p-8">
           <h3 className="pixel text-[10px] text-pink-400 mb-6">CORE ATTRIBUTES</h3>
           <ul className="grid md:grid-cols-2 gap-x-10 gap-y-4">
@@ -41,12 +43,12 @@ export default function Skills() {
             ))}
           </ul>
         </Spot>
-      </div>
+      </div>}
       <div className="mx-auto max-w-6xl px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {skills.map((g, i) => (
           <Reveal key={g.category} delay={(i % 3) * 0.07}>
             <Spot className="p-6 h-full">
-              <h3 className="pixel text-[10px] text-cyan-300 mb-4">{g.category.toUpperCase()}</h3>
+              <h3 className={game ? 'pixel text-[10px] text-cyan-300 mb-4' : 'text-sm font-medium text-lime-400 mb-4 font-mono tracking-wide'}>{game ? g.category.toUpperCase() : g.category}</h3>
               <ul className="flex flex-wrap gap-2">
                 {g.items.map(it => <li key={it} className="chip">{it}</li>)}
               </ul>

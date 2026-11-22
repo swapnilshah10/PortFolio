@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, useMotionValue, useScroll, useTransform, animate, useReducedMotion } from 'motion/react';
 import { ArrowDownRight, Github, Linkedin, Mail, MapPin } from 'lucide-react';
 import { heroStats, personalInfo, terminalLines } from '@/lib/data';
-import { scrollToId } from './Providers';
+import { scrollToId, useGame } from './Providers';
 
 const ROLES = ['high-throughput APIs', 'trading infrastructure', 'realtime systems', 'observable platforms'];
 
@@ -25,13 +25,14 @@ function Words({ text, delay = 0, className = '' }: { text: string; delay?: numb
 }
 
 function Rotator() {
+  const { game } = useGame();
   const [i, setI] = useState(0);
   const reduce = useReducedMotion();
   useEffect(() => { if (reduce) return; const t = setInterval(() => setI(v => (v + 1) % ROLES.length), 2600); return () => clearInterval(t); }, [reduce]);
   return (
-    <span className="relative inline-flex min-h-[2.15em] max-w-full align-top">
+    <span className={`relative inline-flex max-w-full ${game ? '' : 'sm:max-w-none'} ${game ? 'min-h-[2.15em] align-top' : 'min-h-[2.4em] sm:min-h-0 sm:h-[1.3em] sm:overflow-hidden align-top sm:align-bottom'}`}>
       <motion.span key={i} initial={{ y: '100%', opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="gradient-text">{ROLES[i]}</motion.span>
+        className={`gradient-text ${game ? '' : 'sm:whitespace-nowrap'}`}>{ROLES[i]}</motion.span>
     </span>
   );
 }
@@ -86,6 +87,7 @@ function Terminal() {
 }
 
 export default function Hero() {
+  const { game } = useGame();
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const y = useTransform(scrollYProgress, [0, 1], [0, 140]);
@@ -95,9 +97,9 @@ export default function Hero() {
     <section ref={ref} className="relative min-h-screen flex items-center overflow-hidden pt-28 pb-16">
       <div aria-hidden className="absolute inset-0 grid-bg" />
       <div aria-hidden className="aurora absolute inset-0">
-        <i className="w-[46vw] h-[46vw] -top-[12vw] left-[8vw] bg-[radial-gradient(closest-side,rgba(217,70,239,.5),transparent)]" />
-        <i className="w-[38vw] h-[38vw] top-[8vw] right-[2vw] bg-[radial-gradient(closest-side,rgba(14,165,233,.42),transparent)] [animation-delay:-6s]" />
-        <i className="w-[30vw] h-[30vw] top-[30vw] left-[40vw] bg-[radial-gradient(closest-side,rgba(163,230,53,.38),transparent)] [animation-delay:-11s]" />
+        <i className="w-[46vw] h-[46vw] -top-[12vw] left-[8vw] bg-[radial-gradient(closest-side,rgb(var(--aur1) / .5),transparent)]" />
+        <i className="w-[38vw] h-[38vw] top-[8vw] right-[2vw] bg-[radial-gradient(closest-side,rgb(var(--aur2) / .42),transparent)] [animation-delay:-6s]" />
+        <i className="w-[30vw] h-[30vw] top-[30vw] left-[40vw] bg-[radial-gradient(closest-side,rgb(var(--aur3) / .38),transparent)] [animation-delay:-11s]" />
       </div>
 
       <motion.div style={{ y, opacity: fade }} className="relative mx-auto w-full max-w-6xl px-6 grid lg:grid-cols-[1.15fr_1fr] gap-14 items-center">
@@ -105,11 +107,11 @@ export default function Hero() {
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
             className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs text-slate-300 mb-8">
             <span className="relative flex size-2"><span className="absolute inline-flex size-full rounded-full bg-lime-400 opacity-75 animate-ping" /><span className="relative inline-flex size-2 rounded-full bg-lime-400" /></span>
-            Player 1 ready · open to backend &amp; fintech roles
+            {game ? 'Player 1 ready · open to backend & fintech roles' : 'Open to backend & fintech roles'}
             <span className="text-slate-400 flex items-center gap-1"><MapPin size={11} />Mumbai</span>
           </motion.div>
 
-          <h1 className="text-[2.1rem] sm:text-5xl lg:text-[3.6rem] font-semibold tracking-tight leading-[1.02]">
+          <h1 className={`${game ? 'text-[2.1rem] sm:text-5xl lg:text-[3.6rem]' : 'text-[2.4rem] sm:text-6xl lg:text-7xl'} font-semibold tracking-tight leading-[1.02]`}>
             <Words text="Swapnil Shah" />
             <br />
             <Words text="builds" delay={0.25} className="text-slate-400" />{' '}
@@ -124,8 +126,8 @@ export default function Hero() {
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.5 }}
             className="mt-9 flex flex-wrap items-center gap-3">
-            <button className="btn-primary" onClick={() => scrollToId('projects')}><span className="press-start">▶</span> Press start <ArrowDownRight size={16} /></button>
-            <button className="btn-ghost" onClick={() => scrollToId('arcade')}>Play games</button>
+            <button className="btn-primary" onClick={() => scrollToId('projects')}>{game && <span className="press-start">▶</span>} {game ? 'Press start' : 'View projects'} <ArrowDownRight size={16} /></button>
+            <button className="btn-ghost" onClick={() => scrollToId('arcade')}>{game ? 'Play games' : 'Play my games'}</button>
             <button className="btn-ghost" onClick={() => scrollToId('contact')}>Get in touch</button>
             <div className="flex items-center gap-1 ml-1">
               {[{ I: Github, h: personalInfo.github, l: 'GitHub' }, { I: Linkedin, h: personalInfo.linkedin, l: 'LinkedIn' }, { I: Mail, h: `mailto:${personalInfo.email}`, l: 'Email' }].map(({ I, h, l }) => (
@@ -144,8 +146,8 @@ export default function Hero() {
         <motion.dl initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.6 }}
           className="lg:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-px min-w-0 rounded-2xl overflow-hidden border border-white/10 bg-white/10">
           {heroStats.map(s => (
-            <div key={s.label} className="bg-[#0a0614] px-6 py-6">
-              <dt className="pixel text-[9px] text-pink-400 leading-relaxed uppercase">{s.label}</dt>
+            <div key={s.label} className="bg-surface-1 px-6 py-6">
+              <dt className={game ? 'pixel text-[9px] text-pink-400 leading-relaxed uppercase' : 'text-xs text-slate-400 uppercase tracking-wider'}>{s.label}</dt>
               <dd className="mt-1 text-3xl md:text-4xl font-semibold gradient-text"><Counter to={s.value} suffix={s.suffix} /></dd>
             </div>
           ))}

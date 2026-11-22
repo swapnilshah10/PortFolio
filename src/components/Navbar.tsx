@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
-import { Command, Download } from 'lucide-react';
-import { scrollToId } from './Providers';
+import { Command, Download, Gamepad2 } from 'lucide-react';
+import { scrollToId, useGame } from './Providers';
 
 const LINKS = ['about', 'skills', 'experience', 'projects', 'arcade', 'contact'];
 
 export default function Navbar() {
   const [active, setActive] = useState('');
+  const { game, toggle } = useGame();
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -24,7 +25,7 @@ export default function Navbar() {
       initial={{ y: -40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className="fixed top-4 inset-x-0 z-50 flex justify-center px-4"
     >
-      <nav aria-label="Primary" className="flex items-center gap-1 rounded-full border border-white/10 bg-[#0d0719]/70 backdrop-blur-xl px-2 py-1.5 shadow-lg shadow-black/40">
+      <nav aria-label="Primary" className="flex items-center gap-1 rounded-full border border-white/10 bg-surface-2/70 backdrop-blur-xl px-2 py-1.5 shadow-lg shadow-black/40">
         <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="SS. back to top"
           className="px-3 py-1.5 text-sm font-semibold tracking-tight cursor-pointer">
           <span className="gradient-text">SS</span><span className="text-lime-400">.</span>
@@ -44,8 +45,12 @@ export default function Navbar() {
           className="ml-1 flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1.5 text-xs text-slate-400 hover:text-white hover:border-white/25 transition-colors cursor-pointer">
           <Command size={12} /> <span className="hidden sm:inline">K</span>
         </button>
+        <button onClick={toggle} aria-pressed={game} aria-label={game ? 'Game ON, switch to classic theme' : 'Game mode, switch to game theme'}
+          className={`ml-1 flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors cursor-pointer ${game ? 'border-lime-400/60 text-lime-300 bg-lime-400/10' : 'border-white/10 text-slate-300 hover:text-white hover:border-white/25'}`}>
+          <Gamepad2 size={14} /> <span className="hidden sm:inline">{game ? 'Game ON' : 'Game mode'}</span>
+        </button>
         <a href="/Swapnil_Shah_Backend_Developer_v2.pdf" download
-          className="ml-1 flex items-center gap-1.5 rounded-full bg-lime-400 text-[#07040f] px-3.5 py-1.5 text-[13px] font-semibold hover:bg-lime-300 transition-colors cursor-pointer">
+          className="ml-1 flex items-center gap-1.5 rounded-full bg-lime-400 text-surface-0 px-3.5 py-1.5 text-[13px] font-semibold hover:bg-lime-300 transition-colors cursor-pointer">
           <Download size={13} /> Résumé
         </a>
       </nav>

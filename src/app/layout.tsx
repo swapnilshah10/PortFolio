@@ -1,12 +1,13 @@
 import type { Metadata, Viewport } from 'next';
-import { Chakra_Petch, Russo_One, Press_Start_2P, JetBrains_Mono } from 'next/font/google';
+import { Inter, Chakra_Petch, Russo_One, Press_Start_2P, JetBrains_Mono } from 'next/font/google';
 import { faqs } from '@/lib/data';
 import Providers from '@/components/Providers';
 import './globals.css';
 
-const body = Chakra_Petch({ subsets: ['latin'], weight: ['300','400','500','600','700'], variable: '--font-inter', display: 'swap' });
-const display = Russo_One({ subsets: ['latin'], weight: '400', variable: '--font-display', display: 'swap' });
-const pixel = Press_Start_2P({ subsets: ['latin'], weight: '400', variable: '--font-pixel', display: 'swap' });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const body = Chakra_Petch({ subsets: ['latin'], weight: ['400','500','600','700'], variable: '--font-game', display: 'swap', preload: false });
+const display = Russo_One({ subsets: ['latin'], weight: '400', variable: '--font-display', display: 'swap', preload: false });
+const pixel = Press_Start_2P({ subsets: ['latin'], weight: '400', variable: '--font-pixel', display: 'swap', preload: false });
 
 const BASE_URL = 'https://personal.silentkillerop.me';
 
@@ -111,7 +112,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#07040f',
+  themeColor: '#02040a',
   width: 'device-width',
   initialScale: 1,
 };
@@ -177,8 +178,9 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${body.variable} ${display.variable} ${pixel.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${body.variable} ${display.variable} ${pixel.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: "try{if(localStorage.getItem('theme')==='game')document.documentElement.dataset.theme='game'}catch(e){}" }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

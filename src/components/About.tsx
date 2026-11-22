@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { Zap, Network, Activity, Server, LineChart, ShieldCheck } from 'lucide-react';
 import { personalInfo, player } from '@/lib/data';
 import { Reveal, SectionHead, Spot } from './ui';
+import { useGame } from './Providers';
 
 const TILES = [
   { I: Zap, t: 'High-throughput APIs', d: '800 ms → 60 ms on the app-init path, 2 s → 300 ms on reports.' },
@@ -15,13 +16,16 @@ const TILES = [
 ];
 
 export default function About() {
+  const { game } = useGame();
   return (
     <section id="about" className="relative py-28">
       <div className="mx-auto max-w-6xl px-6">
-        <SectionHead label="player 1" title={<>Builds, ships and <span className="gradient-text">operates</span> it all.</>} />
+        <SectionHead label={game ? 'player 1' : 'about'} title={game ? <>Builds, ships and <span className="gradient-text">operates</span> it all.</> : <>Engineer who <span className="gradient-text">ships and operates</span> what he builds.</>} />
         <div className="grid lg:grid-cols-[360px_1fr] gap-6">
           <Reveal>
             <Spot className="p-7 h-full flex flex-col">
+              {game ? (
+              <>
               <div className="flex items-center gap-4 mb-5">
                 <div className="relative size-24 overflow-hidden border-2 border-lime-400/70 shadow-[0_0_24px_rgba(163,230,53,.35)] [clip-path:polygon(0_0,calc(100%-10px)_0,100%_10px,100%_100%,10px_100%,0_calc(100%-10px))]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -48,6 +52,13 @@ export default function About() {
                   </li>
                 ))}
               </ul>
+              </>
+              ) : (
+              <div className="relative size-28 rounded-2xl overflow-hidden border border-white/10 mb-6">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/avatar.png" alt="Portrait of Swapnil Shah" className="size-full object-cover" />
+              </div>
+              )}
               <p className="text-slate-300 leading-relaxed text-[15px]">{personalInfo.summary}</p>
               <div className="mt-auto pt-6 flex flex-wrap gap-2">
                 <span className="chip">Java</span><span className="chip">Go</span><span className="chip">Rust</span><span className="chip">Python</span>

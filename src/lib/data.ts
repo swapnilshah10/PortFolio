@@ -237,7 +237,7 @@ export const projects = [
     github: '',
     group: 'web',
     featured: false,
-    link: '',
+    link: 'https://silentkillerop.me',
     icon: '🔗',
   },
   {

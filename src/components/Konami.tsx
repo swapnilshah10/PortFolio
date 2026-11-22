@@ -20,7 +20,7 @@ export default function Konami() {
     <AnimatePresence>
       {on && (
         <motion.div role="status" initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 40, opacity: 0 }}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[85] border-2 border-lime-400 bg-[#0d0719] px-6 py-4 text-center shadow-[0_0_40px_rgba(163,230,53,.4)]">
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[85] border-2 border-lime-400 bg-surface-2 px-6 py-4 text-center shadow-[0_0_40px_rgba(163,230,53,.4)]">
           <p className="pixel text-[10px] text-lime-400 leading-relaxed">CHEAT CODE ACTIVATED<br /><span className="text-pink-400">+30 LIVES · HIRE ME MODE ON</span></p>
         </motion.div>
       )}

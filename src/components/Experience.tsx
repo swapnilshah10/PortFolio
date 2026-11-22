@@ -5,8 +5,10 @@ import { motion, useScroll, useSpring } from 'motion/react';
 import { MapPin, Briefcase } from 'lucide-react';
 import { experience } from '@/lib/data';
 import { Reveal, SectionHead, Spot } from './ui';
+import { useGame } from './Providers';
 
 export default function Experience() {
+  const { game } = useGame();
   const job = experience[0];
   const list = useRef<HTMLOListElement>(null);
   const { scrollYProgress } = useScroll({ target: list, offset: ['start 70%', 'end 60%'] });
@@ -15,7 +17,7 @@ export default function Experience() {
   return (
     <section id="experience" className="relative py-28">
       <div className="mx-auto max-w-6xl px-6">
-        <SectionHead label="quest log" title={<>Every quest, <span className="gradient-text">completed</span>.</>} />
+        <SectionHead label={game ? 'quest log' : 'experience'} title={game ? <>Every quest, <span className="gradient-text">completed</span>.</> : <>Impact, <span className="gradient-text">measured</span>.</>} />
         <div className="grid lg:grid-cols-[340px_1fr] gap-10">
           <aside className="lg:sticky lg:top-28 self-start">
             <Reveal>
@@ -39,13 +41,13 @@ export default function Experience() {
             <ol ref={list} className="space-y-5">
               {job.achievements.map((a, i) => (
                 <li key={a.metric} className="relative">
-                  <span aria-hidden className="absolute -left-8 top-6 size-[15px] rounded-full bg-[#07040f] border-2 border-lime-400/70" />
+                  <span aria-hidden className="absolute -left-8 top-6 size-[15px] rounded-full bg-surface-0 border-2 border-lime-400/70" />
                   <Reveal delay={0.04}>
                     <Spot className="p-6">
                       <div className="flex items-baseline gap-3 mb-2">
-                        <span className="pixel text-[9px] text-pink-400">Q{String(i + 1).padStart(2, '0')}</span>
-                        <h4 className="font-display gradient-text text-lg">{a.metric}</h4>
-                        <span className="badge rarity-legendary ml-auto">✓ +{(i + 1) * 250} XP</span>
+                        <span className={game ? 'pixel text-[9px] text-pink-400' : 'font-mono text-xs text-slate-400'}>{game ? 'Q' : ''}{String(i + 1).padStart(2, '0')}</span>
+                        <h4 className="font-semibold gradient-text text-lg">{a.metric}</h4>
+                        {game && <span className="badge rarity-legendary ml-auto">✓ +{(i + 1) * 250} XP</span>}
                       </div>
                       <p className="text-slate-400 leading-relaxed text-[15px]">{a.text}</p>
                     </Spot>
